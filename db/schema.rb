@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151109194258) do
+ActiveRecord::Schema.define(version: 20151110102330) do
 
   create_table "comments", force: true do |t|
     t.integer  "owner_id"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20151109194258) do
     t.integer  "thread_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "read",       default: false
   end
 
   add_index "messages", ["owner_id"], name: "index_messages_on_owner_id"
