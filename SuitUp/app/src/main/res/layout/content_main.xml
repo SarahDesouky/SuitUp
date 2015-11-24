@@ -9,6 +9,33 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main" tools:context=".MainActivity">
 
-    <TextView android:text="Hello World!" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/avatar"
+        android:visibility="gone"
+        android:layout_centerInParent="true"/>
+
+    <com.twitter.sdk.android.core.identity.TwitterLoginButton
+        android:id="@+id/twitter_login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+
+    <Button
+        android:id="@+id/twitter_logout_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/tw__blue_default"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="50dp"
+        android:text="@string/log_out"
+        android:textColor="@color/tw__solid_white"
+        android:padding="10dp"
+        android:onClick="log_out"
+        android:visibility="gone"
+        />
+
+
 </RelativeLayout>
