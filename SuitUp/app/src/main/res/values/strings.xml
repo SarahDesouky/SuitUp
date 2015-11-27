@@ -2,8 +2,8 @@
     <string name="app_name">SuitUp</string>
     <string name="action_settings">Settings</string>
     <string name="log_out">Log out from Twitter</string>
-    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="title_activity_sign_up">Sign Up</string>
     <string name="sign_up">Sign Up</string>
-    <string name="title_activity_user_profile">UserProfileActivity</string>
+    <string name="title_activity_user_profile">Profile</string>
 
 </resources>
