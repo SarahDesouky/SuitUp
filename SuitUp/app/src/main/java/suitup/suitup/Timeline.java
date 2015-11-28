@@ -13,17 +13,9 @@ import android.widget.ArrayAdapter;
 import java.util.ArrayList;
 
 public class Timeline extends ListActivity {
+    private CustomListAdapter adapter2;
 
-    private String[] content = new String[] {
-            "aiwjewe is now friends with oiwrhiwer",
-            "rworpw commented on werjwer's photo",
-            "owaeuqe liked ejrwoer's post",
-            "eowprkw posted on iwoerwe's wall",
-            "aiwjewe is now friends with oiwrhiwer",
-            "rworpw commented on werjwer's photo",
-            "owaeuqe liked ejrwoer's post",
-            "eowprkw posted on iwoerwe's wall"
-    };
+    private ArrayList<String> content = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +24,19 @@ public class Timeline extends ListActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, content);
         setListAdapter(adapter);
+        ArrayList<Integer>icons = new ArrayList<>();
+        content.add("aiwjewe is now friends with oiwrhiwer");
+        content.add("rworpw commented on werjwer's photo");
+        content.add("owaeuqe liked ejrwoer's post");
+        content.add("eowprkw posted on iwoerwe's wall");
+        content.add("aiwjewe is now friends with oiwrhiwer");
+        content.add("rworpw commented on werjwer's photo");
+        content.add("owaeuqe liked ejrwoer's post");
+        content.add("eowprkw posted on iwoerwe's wall");
+        for(int i =0;i<content.size();i++)
+            icons.add(R.drawable.donna);
+        adapter2 = new CustomListAdapter(Timeline.this, content, icons);
+        setListAdapter(adapter2);
     }
 
 }

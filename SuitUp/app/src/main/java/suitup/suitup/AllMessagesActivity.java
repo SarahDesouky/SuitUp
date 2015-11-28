@@ -9,9 +9,11 @@ import android.widget.AdapterView;
 import android.view.View;
 import android.content.Intent;
 
+import java.util.ArrayList;
+
 public class AllMessagesActivity extends Activity {
-    public static Message[] items;
-    public static String msgTxt;
+    public static ArrayList<Message> msgs = new ArrayList<>();
+    public static Message msg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,15 +22,14 @@ public class AllMessagesActivity extends Activity {
 
         ListView listView = (ListView) findViewById(R.id.listView);
 
-        items = new Message[]{
-                new Message("Message 1", "Dina", "Alaa"),
-                new Message("Message 2", "Aya", "Alaa"),
-                new Message("Message 3", "Sondos", "Alaa"),
-                new Message("Message 4", "Doha", "Alaa"),
-                new Message("Message 5", "Alia", "Alaa")};
+        msgs.clear();
+        msgs.add(new Message("Message 1", "Dina", "Alaa"));
+        msgs.add(new Message("Message 2", "Aya", "Alaa"));
+        msgs.add(new Message("Message 3", "Sondos", "Alaa"));
+        msgs.add(new Message("Message 4", "Doha", "Alaa"));
+        msgs.add(new Message("Message 5", "Lina", "Alaa"));
 
-        ArrayAdapter<Message> adapter = new ArrayAdapter<Message>(this, android.R.layout.simple_list_item_1, items);
-
+        ArrayAdapter<Message> adapter = new ArrayAdapter<Message>(this, android.R.layout.simple_list_item_1, msgs);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new OnItemClickListener() {
@@ -38,8 +39,7 @@ public class AllMessagesActivity extends Activity {
 //                Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
 //                String e = "" + id;
 //                Toast.makeText(getBaseContext(), e, Toast.LENGTH_LONG).show();
-                Message m = items[(int)id];
-                msgTxt = m.getOwner() + ": " + m.getText() + "\n";
+                msg = msgs.get((int)id);
                 Intent intent = new Intent(AllMessagesActivity.this, MessageActivity.class);
                 AllMessagesActivity.this.startActivity(intent);
             }

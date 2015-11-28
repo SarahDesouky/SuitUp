@@ -13,6 +13,7 @@ public class MessageActivity extends AppCompatActivity {
     Button sendmsg;
     EditText inputmsg;
     TextView displaymsg;
+    TextView friendName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +23,9 @@ public class MessageActivity extends AppCompatActivity {
         sendmsg = (Button) findViewById(R.id.sendmsg);
         inputmsg = (EditText) findViewById(R.id.inputmsg);
         displaymsg = (TextView) findViewById(R.id.displaymsg);
-        displaymsg.append(AllMessagesActivity.msgTxt);
+        friendName = (TextView) findViewById(R.id.textView3);
+        friendName.append(" " + AllMessagesActivity.msg.getOwner());
+        displaymsg.append(AllMessagesActivity.msg.getOwner() + ": " + AllMessagesActivity.msg.getText());
         sendmsg.setOnClickListener(new View.OnClickListener() {
             public void onClick (View v) {
                 sendMessage();

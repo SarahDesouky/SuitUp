@@ -67,10 +67,10 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-    public void SignUp(View view){
-        String username = ((EditText)findViewById(R.id.username)).getText().toString();
-        String email = ((EditText)findViewById(R.id.email)).getText().toString();
-        String dateofbirth = ((EditText)findViewById(R.id.dob)).getText().toString();
+    public void SignUp(View view) {
+        String username = ((EditText) findViewById(R.id.username)).getText().toString();
+        String email = ((EditText) findViewById(R.id.email)).getText().toString();
+        String dateofbirth = ((EditText) findViewById(R.id.dob)).getText().toString();
 //        DatePicker dob = (DatePicker)findViewById(R.id.dob);
         Date dob = new Date(myCalendar.get(Calendar.DATE));
         StaticData.CurrentUser.username = username;
@@ -82,12 +82,15 @@ public class SignUpActivity extends AppCompatActivity {
         final SharedPreferences.Editor editor = settings.edit();
         int numberOfIDs = settings.getInt("ID_ARRAY_SIZE", 0);
         editor.putString("username_" + (numberOfIDs), username).commit();
-        editor.putString("email_"+(numberOfIDs), email).commit();
-        editor.putString("dob_"+(numberOfIDs), dateofbirth).commit();
-        editor.putString("avatar_"+(numberOfIDs), avatar).commit();
-        Intent intent = new Intent(this.getBaseContext(), UserProfileActivity.class);
-        startActivity(intent);
+        editor.putString("email_" + (numberOfIDs), email).commit();
+        editor.putString("dob_" + (numberOfIDs), dateofbirth).commit();
+        editor.putString("avatar_" + (numberOfIDs), avatar).commit();
+//        Intent intent = new Intent(this.getBaseContext(), Timeline.class);
+//        startActivity(intent);
 
+        //Uncomment to redirect to My Mssages View
+        Intent intent = new Intent(this.getBaseContext(), AllMessagesActivity.class);
+        startActivity(intent);
     }
 
 }

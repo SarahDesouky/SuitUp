@@ -7,5 +7,7 @@
     <string name="title_activity_user_profile">Profile</string>
     <string name="title_activity_message">Message</string>
     <string name="title_activity_all_messages">AllMessagesActivity</string>
+    <string name="title_activity_timeline">Timeline</string>
+
 
 </resources>
