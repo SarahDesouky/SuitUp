@@ -32,6 +32,7 @@ import com.twitter.sdk.android.core.models.User;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         else {
                             // Toast.makeText(getApplicationContext(), StaticData.CurrentUser.username, Toast.LENGTH_LONG).show();
                             getUser(session.getUserId(),twitterImage);
-                            Intent intent = new Intent(getApplicationContext(),UserProfileActivity.class);
+                            Intent intent = new Intent(getApplicationContext(),Timeline.class);
                             startActivity(intent);
                         }
 

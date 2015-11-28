@@ -85,7 +85,7 @@ public class SignUpActivity extends AppCompatActivity {
         editor.putString("email_"+(numberOfIDs), email).commit();
         editor.putString("dob_"+(numberOfIDs), dateofbirth).commit();
         editor.putString("avatar_"+(numberOfIDs), avatar).commit();
-        Intent intent = new Intent(this.getBaseContext(), UserProfileActivity.class);
+        Intent intent = new Intent(this.getBaseContext(), Timeline.class);
         startActivity(intent);
 
     }
