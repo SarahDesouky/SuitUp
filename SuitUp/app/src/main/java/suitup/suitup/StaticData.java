@@ -155,3 +155,35 @@ class Comment {
         owner = o;
     }
 }
+
+class Message {
+    String text;
+    String owner;
+    String receiver;
+
+    public Message() {
+    }
+
+    public Message(String t, String o, String r) {
+        text = t;
+        owner = o;
+        receiver = r;
+    }
+
+    public String getOwner() { return owner; }
+
+    public void setOwner(String u) { this.owner = u; }
+
+    public String getReceiver() { return receiver; }
+
+    public void setReceiver(String r) { this.receiver = r; }
+
+    public String getText() { return text; }
+
+    public void setText(String t) { this.text = t; }
+
+    public String toString() {
+        return this.owner + ", " + this.text;
+    }
+}
+

@@ -5,5 +5,7 @@
     <string name="title_activity_sign_up">Sign Up</string>
     <string name="sign_up">Sign Up</string>
     <string name="title_activity_user_profile">Profile</string>
+    <string name="title_activity_message">Message</string>
+    <string name="title_activity_all_messages">AllMessagesActivity</string>
 
 </resources>
