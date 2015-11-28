@@ -22,7 +22,9 @@
         </activity>
         <activity
             android:name=".Timeline"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:label="Suit Up Newsfeed"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
 
