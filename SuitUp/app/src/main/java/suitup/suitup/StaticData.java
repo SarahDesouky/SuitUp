@@ -25,6 +25,10 @@ class User{
     String email;
     Date dob;
     User[] friends;
+    String fname;
+    String lname;
+    String country;
+    String gender;
 
     public String getAvatar() {
         return avatar;

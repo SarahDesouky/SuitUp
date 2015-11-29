@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -71,12 +72,23 @@ public class SignUpActivity extends AppCompatActivity {
         String username = ((EditText) findViewById(R.id.username)).getText().toString();
         String email = ((EditText) findViewById(R.id.email)).getText().toString();
         String dateofbirth = ((EditText) findViewById(R.id.dob)).getText().toString();
+        String fname = ((EditText)findViewById(R.id.fname)).getText().toString();
+        String lname = ((EditText)findViewById(R.id.lname)).getText().toString();
+        String country = ((EditText)findViewById(R.id.country)).getText().toString();
+        boolean female = ((RadioButton)findViewById(R.id.female)).isChecked();
+        boolean male = ((RadioButton)findViewById(R.id.male)).isChecked();
+
+
 //        DatePicker dob = (DatePicker)findViewById(R.id.dob);
         Date dob = new Date(myCalendar.get(Calendar.DATE));
         StaticData.CurrentUser.username = username;
         StaticData.CurrentUser.email = email;
         StaticData.CurrentUser.dob = dob;
         StaticData.CurrentUser.avatar = avatar;
+        StaticData.CurrentUser.fname =fname;
+        StaticData.CurrentUser.lname = lname;
+        StaticData.CurrentUser.country = country;
+        StaticData.CurrentUser.gender = (female)?"Female":"Male";
 
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
