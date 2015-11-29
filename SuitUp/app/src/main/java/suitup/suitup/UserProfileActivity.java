@@ -1,6 +1,5 @@
 package suitup.suitup;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -13,12 +12,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Button;
+
 import java.io.InputStream;
 
 public class UserProfileActivity extends AppCompatActivity {
-
-    Button viewMsgsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,18 +27,6 @@ public class UserProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         TextView username = (TextView)findViewById(R.id.username);
         username.setText(StaticData.CurrentUser.username);
-
-        viewMsgsButton = (Button)findViewById(R.id.viewMsgs);
-        viewMsgsButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.i("clicks","You Clicked B1");
-                Intent i=new Intent(
-                        UserProfileActivity.this,
-                        AllMessagesActivity.class);
-                startActivity(i);
-            }
-
-        });
 
         new DownloadImageTask((ImageView) findViewById(R.id.avatar))
                 .execute(StaticData.CurrentUser.avatar);
@@ -70,6 +55,13 @@ public class UserProfileActivity extends AppCompatActivity {
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }
+        public void viewFriends(){
+
+        }
+        public void viewSettings(){}
+        public void viewMsgs(){}
+        public void viewImages(){}
+
     }
 
 }
