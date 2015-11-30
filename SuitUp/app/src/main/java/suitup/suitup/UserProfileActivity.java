@@ -1,6 +1,7 @@
 package suitup.suitup;
 
 import android.app.ListActivity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -63,7 +64,7 @@ public class UserProfileActivity extends AppCompatActivity{
         }
         TextView name = (TextView)findViewById(R.id.username);
         name.setText(fname + " " + lname);
-        TextView country = (TextView)findViewById(R.id.country);
+        TextView country = (TextView) findViewById(R.id.country);
         country.setText(StaticData.CurrentUser.country);
 //        ArrayAdapter wallAdapter = new CustomAdapter(this, content);
 //        ListView wallListView = (ListView) findViewById(R.id.wallListView);
@@ -131,8 +132,9 @@ public class UserProfileActivity extends AppCompatActivity{
 
 
     public void viewFriends(View view){
-        Intent friendList = new Intent(view.getContext(), FriendList.class);
-        startActivityForResult(friendList, 0);}
+        Intent friendList = new Intent(view.getContext(), FriendsListActivity.class);
+        startActivityForResult(friendList, 0);
+    }
 
     public void uploadImage(View view){
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -176,10 +178,11 @@ public class UserProfileActivity extends AppCompatActivity{
         Intent settings = new Intent(view.getContext(), Settings.class);
         startActivityForResult(settings, 0);
     }
+
     public void viewMsgs(View view){
         Intent msg = new Intent(view.getContext(), AllMessagesActivity.class);
-        startActivityForResult(msg, 0);}
-
+        startActivityForResult(msg, 0);
+    }
 
     public void removeImage(View view) {
         ImageView viewimage = (ImageView)findViewById(R.id.imagetest);
