@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
-        editor.clear().commit();
+        //editor.clear().commit();
         if(!settings.contains("ID_ARRAY_SIZE")) {
             editor.putInt("ID_ARRAY_SIZE",0);
         }
@@ -198,6 +198,10 @@ public class MainActivity extends AppCompatActivity {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa");
                 String date = settings.getString("dob_" + i, null);
                 String image =  settings.getString("avatar" + i, twitterImage);
+                String gender = settings.getString("gender"+i, "");
+                String country = settings.getString("country"+i,"");
+                String fname = settings.getString("fname"+i,"");
+                String lname = settings.getString("lname"+i,"");
                 Date dob = new Date();
                 try {
                     dob = dateFormat.parse(date);
@@ -206,6 +210,10 @@ public class MainActivity extends AppCompatActivity {
                 StaticData.CurrentUser.email = email;
                 StaticData.CurrentUser.dob = dob;
                 StaticData.CurrentUser.avatar = image;
+                StaticData.CurrentUser.fname = fname;;
+                StaticData.CurrentUser.lname = lname;
+                StaticData.CurrentUser.country = country;
+                StaticData.CurrentUser.gender = gender;
             }
 
         }

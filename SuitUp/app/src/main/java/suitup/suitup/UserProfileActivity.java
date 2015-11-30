@@ -2,6 +2,7 @@ package suitup.suitup;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -42,15 +43,32 @@ public class UserProfileActivity extends AppCompatActivity{
     boolean imageUploaded = false;
     Uri imageToUpload;
     ArrayAdapter adapter;
+    public static SharedPreferences.Editor editor;
+    public static final String PREFS_NAME = "MyPrefs";
+
+
 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+        final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        editor = settings.edit();
         lstview = (ListView)findViewById(R.id.list);
         adapter = new CustomPostsAdapterTest(this,Posts,Images);
         lstview.setAdapter(adapter);
-//        String[] content = {"Mazlooom", "Magroo7", "Geraaaa7", "Ader we te3melha we tensa awam", "7abebty matet"};
+        lstview.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.v("Module Item Trigger", "Module item was triggered");
+                Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_SHORT).show();
+                String post = (String) parent.getItemAtPosition(position);
+                editor.putString("post", post);
+                editor.commit();
+                PostActivity pa = new PostActivity();
+                Intent intent = new Intent(getApplicationContext(), pa.getClass());
+                startActivity(intent);
+            }
+        });
         String image = StaticData.CurrentUser.avatar;
         String fname = StaticData.CurrentUser.fname;
         String lname = StaticData.CurrentUser.lname;
@@ -129,12 +147,11 @@ public class UserProfileActivity extends AppCompatActivity{
     }
 
 
-
     public void viewFriends(View view){
         Intent friendList = new Intent(view.getContext(), FriendList.class);
         startActivityForResult(friendList, 0);}
 
-    public void uploadImage(View view){
+    public void uploadImage(View view) {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, SELECT_PHOTO);

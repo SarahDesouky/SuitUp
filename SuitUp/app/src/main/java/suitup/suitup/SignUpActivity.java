@@ -97,6 +97,12 @@ public class SignUpActivity extends AppCompatActivity {
         editor.putString("email_" + (numberOfIDs), email).commit();
         editor.putString("dob_" + (numberOfIDs), dateofbirth).commit();
         editor.putString("avatar_" + (numberOfIDs), avatar).commit();
+        editor.putString("country" + (numberOfIDs), country).commit();
+        editor.putString("fname"+ (numberOfIDs), fname).commit();
+        editor.putString("lname"+ (numberOfIDs), lname).commit();
+        editor.putString("gender"+ (numberOfIDs), StaticData.CurrentUser.gender ).commit();
+
+
 //        Intent intent = new Intent(this.getBaseContext(), Timeline.class);
 //        startActivity(intent);
 
