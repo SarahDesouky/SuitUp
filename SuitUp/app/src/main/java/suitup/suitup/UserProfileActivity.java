@@ -3,6 +3,7 @@ package suitup.suitup;
 import android.app.ListActivity;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -43,18 +44,44 @@ public class UserProfileActivity extends AppCompatActivity{
     boolean imageUploaded = false;
     Uri imageToUpload;
     ArrayAdapter adapter;
+    public static SharedPreferences.Editor editor;
+    public static final String PREFS_NAME = "MyPrefs";
+
+
 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+        final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        editor = settings.edit();
         lstview = (ListView)findViewById(R.id.list);
         adapter = new CustomPostsAdapterTest(this,Posts,Images);
         lstview.setAdapter(adapter);
-//        String[] content = {"Mazlooom", "Magroo7", "Geraaaa7", "Ader we te3melha we tensa awam", "7abebty matet"};
-        String image = StaticData.CurrentUser.avatar;
-        String fname = StaticData.CurrentUser.fname;
-        String lname = StaticData.CurrentUser.lname;
+        lstview.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.v("Module Item Trigger", "Module item was triggered");
+                Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_SHORT).show();
+                String post = (String) parent.getItemAtPosition(position);
+                editor.putString("post", post);
+                editor.commit();
+                PostActivity pa = new PostActivity();
+                Intent intent = new Intent(getApplicationContext(), pa.getClass());
+                startActivity(intent);
+            }
+        });
+
+        Posts.add("Hello!! It's me");
+        Posts.add("Never ending to do list!");
+        Posts.add("Excited for the new mocking jay movie");
+        Images.add(Uri.EMPTY);
+        Images.add(Uri.EMPTY);
+        Images.add(Uri.EMPTY);
+
+
+        String image = settings.getString("avatar","");
+        String fname = settings.getString("fname","");
+        String lname = settings.getString("lname","");
         try {
 
             new DownloadImageTask((ImageView) findViewById(R.id.avatar))
@@ -70,7 +97,7 @@ public class UserProfileActivity extends AppCompatActivity{
 //        ListView wallListView = (ListView) findViewById(R.id.wallListView);
 //        wallListView.setAdapter(wallAdapter);
     }
-    
+
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
@@ -130,13 +157,12 @@ public class UserProfileActivity extends AppCompatActivity{
     }
 
 
-
     public void viewFriends(View view){
         Intent friendList = new Intent(view.getContext(), FriendsListActivity.class);
         startActivityForResult(friendList, 0);
     }
 
-    public void uploadImage(View view){
+    public void uploadImage(View view) {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, SELECT_PHOTO);
@@ -181,9 +207,11 @@ public class UserProfileActivity extends AppCompatActivity{
 
     public void viewMsgs(View view){
         Intent msg = new Intent(view.getContext(), AllMessagesActivity.class);
-        startActivityForResult(msg, 0);
-    }
+        startActivityForResult(msg, 0);}
 
+    public void viewTimeline(View view){
+        Intent msg = new Intent(view.getContext(), Timeline.class);
+        startActivityForResult(msg, 0);}
     public void removeImage(View view) {
         ImageView viewimage = (ImageView)findViewById(R.id.imagetest);
         viewimage.setVisibility(View.GONE);
