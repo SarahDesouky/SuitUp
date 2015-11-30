@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
-        //editor.clear().commit();
+        editor.clear().commit();
         if(!settings.contains("ID_ARRAY_SIZE")) {
             editor.putInt("ID_ARRAY_SIZE",0);
         }
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                             // Toast.makeText(getApplicationContext(), StaticData.CurrentUser.username, Toast.LENGTH_LONG).show();
                             getUser(session.getUserId(),twitterImage);
 
-                            Intent intent = new Intent(getApplicationContext(),TweetTestActivity.class);
+                            Intent intent = new Intent(getApplicationContext(),UserProfileActivity.class);
 
                             startActivity(intent);
                         }
