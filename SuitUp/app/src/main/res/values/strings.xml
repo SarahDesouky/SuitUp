@@ -8,6 +8,7 @@
     <string name="title_activity_message">Message</string>
     <string name="title_activity_all_messages">AllMessagesActivity</string>
     <string name="title_activity_timeline">Timeline</string>
+    <string name="title_activity_tweet_test">TweetTestActivity</string>
 
 
 </resources>

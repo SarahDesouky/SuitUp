@@ -28,6 +28,7 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 import com.twitter.sdk.android.core.models.User;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -55,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
-        Fabric.with(this, new Twitter(authConfig));
+        Fabric.with(this, new Twitter(authConfig), new TweetComposer());
         setContentView(R.layout.activity_main);
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
-        editor.clear().commit();
+        //editor.clear().commit();
         if(!settings.contains("ID_ARRAY_SIZE")) {
             editor.putInt("ID_ARRAY_SIZE",0);
         }
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                         else {
                             // Toast.makeText(getApplicationContext(), StaticData.CurrentUser.username, Toast.LENGTH_LONG).show();
                             getUser(session.getUserId(),twitterImage);
-                            Intent intent = new Intent(getApplicationContext(),AllMessagesActivity.class);
+                            Intent intent = new Intent(getApplicationContext(),TweetTestActivity.class);
                             startActivity(intent);
                         }
 
