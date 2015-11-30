@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
-        editor.clear().commit();
+        //editor.clear().commit();
         if(!settings.contains("ID_ARRAY_SIZE")) {
             editor.putInt("ID_ARRAY_SIZE",0);
         }
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                             // Toast.makeText(getApplicationContext(), StaticData.CurrentUser.username, Toast.LENGTH_LONG).show();
                             getUser(session.getUserId(),twitterImage);
 
-                            Intent intent = new Intent(getApplicationContext(),UserProfileActivity.class);
+                            Intent intent = new Intent(getApplicationContext(),Timeline.class);
 
                             startActivity(intent);
                         }
@@ -166,21 +166,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean AlreadySignedUp(Long ID) {
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
-        int numberOfIDs = settings.getInt("ID_ARRAY_SIZE",0);
-        for(int i=1; i<=numberOfIDs;i++) {
-            long id = settings.getLong("ID_"+i, 0);
-            if(id == ID)
-                return true;
-        }
-        return false;
+        long id = settings.getLong("Id", 0);
+        if(id == ID)
+            return true;
+        else return false;
     }
     public void AddId(Long ID) {
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
-        int numberOfIDs = settings.getInt("ID_ARRAY_SIZE",0);
-        settings.edit().putInt("ID_ARRAY_SIZE", (numberOfIDs+1)).commit();
-        editor.putLong("ID_" + (numberOfIDs + 1), ID).commit();
-        editor.putString("avatar_" + (numberOfIDs + 1), twitterImage).commit();
+        editor.putLong("Id", ID).commit();
         StaticData.CurrentUser.avatar = twitterImage;
 
     }
@@ -189,26 +183,29 @@ public class MainActivity extends AppCompatActivity {
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         suitup.suitup.User user = new suitup.suitup.User();
         final SharedPreferences.Editor editor = settings.edit();
-        int numberOfIDs = settings.getInt("ID_ARRAY_SIZE",0);
-        for(int i=1; i<=numberOfIDs;i++) {
-            long id = settings.getLong("ID_"+i, 0);
-            if(id == ID){
-                String username = settings.getString("username_" + i, null);
-                String email = settings.getString("email_"+i, null);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa");
-                String date = settings.getString("dob_" + i, null);
-                String image =  settings.getString("avatar" + i, twitterImage);
-                Date dob = new Date();
-                try {
-                    dob = dateFormat.parse(date);
-                }catch(ParseException e){e.printStackTrace();}
+
+        String username = settings.getString("username", null);
+        String email = settings.getString("email", null);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa");
+        String date = settings.getString("dob", null);
+        String image =  settings.getString("avatar", twitterImage);
+        String gender = settings.getString("gender", "");
+        String country = settings.getString("country","");
+        String fname = settings.getString("fname","");
+        String lname = settings.getString("lname","");
+        Date dob = new Date();
+        try {
+            dob = dateFormat.parse(date);
+        }catch(ParseException e){e.printStackTrace();}
+
                 StaticData.CurrentUser.username = username;
                 StaticData.CurrentUser.email = email;
                 StaticData.CurrentUser.dob = dob;
                 StaticData.CurrentUser.avatar = image;
-            }
-
-        }
+                StaticData.CurrentUser.fname = fname;;
+                StaticData.CurrentUser.lname = lname;
+                StaticData.CurrentUser.country = country;
+                StaticData.CurrentUser.gender = gender;
         return StaticData.CurrentUser;
     }
 

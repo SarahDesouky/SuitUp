@@ -66,6 +66,15 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="10dp"
+                    android:src="@drawable/donna"
+                    android:scaleType="centerInside"
+                    android:onClick="viewTimeline"
+                    android:clickable="true" />
+                <ImageView
+                    android:layout_marginTop="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
                     android:src="@drawable/fri"
                     android:scaleType="centerInside"
                     android:clickable="true"
@@ -149,7 +158,8 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/list"></ListView>
+        android:id="@+id/list"
+        ></ListView>
 
 
 </LinearLayout>
