@@ -69,7 +69,7 @@ public class UserProfileActivity extends AppCompatActivity{
 //        ListView wallListView = (ListView) findViewById(R.id.wallListView);
 //        wallListView.setAdapter(wallAdapter);
     }
-    
+
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
@@ -180,7 +180,9 @@ public class UserProfileActivity extends AppCompatActivity{
         Intent msg = new Intent(view.getContext(), AllMessagesActivity.class);
         startActivityForResult(msg, 0);}
 
-
+    public void viewTimeline(View view){
+        Intent msg = new Intent(view.getContext(), Timeline.class);
+        startActivityForResult(msg, 0);}
     public void removeImage(View view) {
         ImageView viewimage = (ImageView)findViewById(R.id.imagetest);
         viewimage.setVisibility(View.GONE);
