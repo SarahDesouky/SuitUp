@@ -89,7 +89,7 @@ public class SignUpActivity extends AppCompatActivity {
 //        startActivity(intent);
 
         //Uncomment to redirect to My Mssages View
-        Intent intent = new Intent(this.getBaseContext(), AllMessagesActivity.class);
+        Intent intent = new Intent(this.getBaseContext(), UserProfileActivity.class);
         startActivity(intent);
     }
 
