@@ -18,6 +18,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.content.Intent;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -86,12 +87,21 @@ public class UserProfileActivity extends AppCompatActivity{
 //        setListAdapter(adapter3);
 //    }
 
+
+
     public void viewFriends(View view){
+        Intent friendList = new Intent(view.getContext(), FriendList.class);
+        startActivityForResult(friendList, 0);
 
     }
-    public void viewSettings(View view){}
-    public void viewMsgs(View view){}
-    public void viewImages(View view){}
+    public void viewSettings(View view){
+        Intent settings = new Intent(view.getContext(), Settings.class);
+        startActivityForResult(settings, 0);
+    }
+    public void viewMsgs(View view){
+        Intent msg = new Intent(view.getContext(), AllMessagesActivity.class);
+        startActivityForResult(msg, 0);}
+
 
 }
 

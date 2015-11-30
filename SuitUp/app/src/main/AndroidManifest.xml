@@ -61,6 +61,10 @@
             android:name=".TweetTestActivity"
             android:label="@string/title_activity_tweet_test" >
         </activity>
+        <activity android:name=".FriendList" >
+        </activity>
+        <activity android:name=".Settings" >
+        </activity>
     </application>
 
 </manifest>
