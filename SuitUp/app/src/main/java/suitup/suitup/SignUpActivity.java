@@ -92,15 +92,14 @@ public class SignUpActivity extends AppCompatActivity {
 
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
-        int numberOfIDs = settings.getInt("ID_ARRAY_SIZE", 0);
-        editor.putString("username_" + (numberOfIDs), username).commit();
-        editor.putString("email_" + (numberOfIDs), email).commit();
-        editor.putString("dob_" + (numberOfIDs), dateofbirth).commit();
-        editor.putString("avatar_" + (numberOfIDs), avatar).commit();
-        editor.putString("country" + (numberOfIDs), country).commit();
-        editor.putString("fname"+ (numberOfIDs), fname).commit();
-        editor.putString("lname"+ (numberOfIDs), lname).commit();
-        editor.putString("gender"+ (numberOfIDs), StaticData.CurrentUser.gender ).commit();
+        editor.putString("username", username).commit();
+        editor.putString("email", email).commit();
+        editor.putString("dob", dateofbirth).commit();
+        editor.putString("avatar", avatar).commit();
+        editor.putString("country", country).commit();
+        editor.putString("fname", fname).commit();
+        editor.putString("lname", lname).commit();
+        editor.putString("gender", StaticData.CurrentUser.gender ).commit();
 
 
 //        Intent intent = new Intent(this.getBaseContext(), Timeline.class);
