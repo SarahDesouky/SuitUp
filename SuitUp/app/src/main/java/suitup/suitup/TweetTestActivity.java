@@ -120,7 +120,6 @@ public class TweetTestActivity extends Activity {
         Button upload = (Button)findViewById(R.id.upload_btn);
         upload.setVisibility(View.VISIBLE);
 
-
     }
 
 

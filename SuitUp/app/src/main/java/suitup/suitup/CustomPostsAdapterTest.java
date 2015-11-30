@@ -17,6 +17,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.net.Uri;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -44,6 +46,8 @@ public class CustomPostsAdapterTest extends ArrayAdapter {
     public View getView(int position, final View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         final View CustomView = inflater.inflate(R.layout.custom_row_posts, parent, false);
+        TextView poster = (TextView)CustomView.findViewById(R.id.poster);
+        poster.setText(StaticData.CurrentUser.fname + " " + StaticData.CurrentUser.lname + "\n");
 
         String post = "";
         Uri image = null;
@@ -73,25 +77,24 @@ public class CustomPostsAdapterTest extends ArrayAdapter {
             String s = e.toString();
         };
 
-        Button commentButton = (Button)CustomView.findViewById(R.id.PostComment);
-        ListView lst = (ListView)CustomView.findViewById(R.id.comments);
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getContext(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, Arrays.copyOfRange(comments,0,numberOfComments));
-        lst.setAdapter(adapter);
-        EditText commentEditText = (EditText)CustomView.findViewById(R.id.comment);
-        try {
-            commentButton.setOnClickListener(new View.OnClickListener() {
-
-                public void onClick(View v) {
-                String comment = (String)((EditText)CustomView.findViewById(R.id.comment)).getText().toString();
-                comments[numberOfComments] = comment;
-                numberOfComments++;
-                adapter.notifyDataSetChanged();
-                }
-            });
-        }catch(Exception e) {
-            String s = e.toString();
-        }
+//        ListView lst = (ListView)CustomView.findViewById(R.id.comments);
+//        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getContext(),
+//                android.R.layout.simple_list_item_1, android.R.id.text1, Arrays.copyOfRange(comments,0,numberOfComments));
+//        lst.setAdapter(adapter);
+//        EditText commentEditText = (EditText)CustomView.findViewById(R.id.comment);
+//        try {
+//            commentButton.setOnClickListener(new View.OnClickListener() {
+//
+//                public void onClick(View v) {
+//                String comment = (String)((EditText)CustomView.findViewById(R.id.comment)).getText().toString();
+//                comments[numberOfComments] = comment;
+//                numberOfComments++;
+//                adapter.notifyDataSetChanged();
+//                }
+//            });
+//        }catch(Exception e) {
+//            String s = e.toString();
+//        }
 
         return CustomView;
     }

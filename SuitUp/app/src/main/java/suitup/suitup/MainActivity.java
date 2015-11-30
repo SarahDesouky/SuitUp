@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
-        //editor.clear().commit();
+        editor.clear().commit();
         if(!settings.contains("ID_ARRAY_SIZE")) {
             editor.putInt("ID_ARRAY_SIZE",0);
         }
@@ -108,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
                 loginButton.setVisibility(View.GONE);
                 logoutButton.setVisibility(View.VISIBLE);
             }
+
+
 
             @Override
             public void failure(TwitterException exception) {
