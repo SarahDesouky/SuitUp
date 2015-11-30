@@ -10,6 +10,7 @@
     <string name="title_activity_timeline">Timeline</string>
     <string name="title_activity_tweet_test">TweetTestActivity</string>
     <string name="title_activity_friends_list">FriendsListActivity</string>
+    <string name="title_activity_friend_profile">FriendProfile</string>
 
 
 </resources>

@@ -15,7 +15,6 @@ public class FriendsListActivity extends ListActivity {
     CustomListAdapter adapter;
     ArrayList<String> content = new ArrayList<>();
     ArrayList<Integer>icons = new ArrayList<>();
-    static String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +33,7 @@ public class FriendsListActivity extends ListActivity {
 
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
+        Intent intent = new Intent(getApplicationContext(), FriendProfile.class);
         intent.putExtra("friendName", content.get(position));
         startActivity(intent);
     }

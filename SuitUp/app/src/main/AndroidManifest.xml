@@ -23,7 +23,7 @@
         <activity
             android:name=".Timeline"
             android:label="Suit Up Newsfeed"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
@@ -50,21 +50,24 @@
         <activity
             android:name=".MessageActivity"
             android:label="@string/title_activity_message"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PostActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AllMessagesActivity"
-            android:label="All Messages"></activity>
+            android:label="All Messages" />
         <activity
             android:name=".TweetTestActivity"
-            android:label="@string/title_activity_tweet_test"></activity>
-        <activity android:name=".FriendList"></activity>
-        <activity android:name=".Settings"></activity>
+            android:label="@string/title_activity_tweet_test" />
+        <activity android:name=".FriendList" />
+        <activity android:name=".Settings" />
         <activity
             android:name=".FriendsListActivity"
-            android:label="@string/title_activity_friends_list"></activity>
+            android:label="@string/title_activity_friends_list" />
+        <activity
+            android:name=".FriendProfile"
+            android:label="@string/title_activity_friend_profile"></activity>
     </application>
 
 </manifest>
