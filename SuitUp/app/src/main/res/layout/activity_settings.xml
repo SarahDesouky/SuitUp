@@ -87,6 +87,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Log Out"
+        android:background="@color/tw__blue_default"
+        android:textColor="@color/tw__solid_white"
         android:id="@+id/logout"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"

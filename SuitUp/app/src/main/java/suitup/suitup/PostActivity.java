@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,7 +22,7 @@ public class PostActivity extends ListActivity {
     static EditText editText;
     static ArrayList<String> comments;
     static ArrayList<Integer> icons;
-    private CustomListAdapter adapter2;
+    private ArrayAdapter adapter2;
 
     public PostActivity(){
         comments = new ArrayList<>();
@@ -39,9 +40,11 @@ public class PostActivity extends ListActivity {
         editText = (EditText) findViewById(R.id.editText);
         postButton = (Button) findViewById(R.id.postButton);
 
-        for(int i =0;i<comments.size();i++)
-            icons.add(R.drawable.donna);
-        adapter2 = new CustomListAdapter(PostActivity.this, comments, icons);
+//        for(int i =0;i<comments.size();i++)
+//            icons.add(R.drawable.donna);
+        adapter2 = new ArrayAdapter<String>(PostActivity.this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, comments);
+//        adapter2 = new CustomListAdapter(PostActivity.this, comments, icons);
         setListAdapter(adapter2);
 
     }

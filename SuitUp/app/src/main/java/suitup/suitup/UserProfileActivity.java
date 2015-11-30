@@ -69,9 +69,18 @@ public class UserProfileActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
-        String image = StaticData.CurrentUser.avatar;
-        String fname = StaticData.CurrentUser.fname;
-        String lname = StaticData.CurrentUser.lname;
+
+        Posts.add("Hello!! It's me");
+        Posts.add("Never ending to do list!");
+        Posts.add("Excited for the new mocking jay movie");
+        Images.add(Uri.EMPTY);
+        Images.add(Uri.EMPTY);
+        Images.add(Uri.EMPTY);
+
+
+        String image = settings.getString("avatar","");
+        String fname = settings.getString("fname","");
+        String lname = settings.getString("lname","");
         try {
 
             new DownloadImageTask((ImageView) findViewById(R.id.avatar))

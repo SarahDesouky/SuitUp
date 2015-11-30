@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                             intent.putExtra(USER_NAME_INTENT, session.getUserName());
                             intent.putExtra(USER_AVATAR_INTENT, twitterImage);
                             startActivity(intent);
+                            finish();
                         }
                         else {
                             // Toast.makeText(getApplicationContext(), StaticData.CurrentUser.username, Toast.LENGTH_LONG).show();
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(),Timeline.class);
 
                             startActivity(intent);
+                            finish();
                         }
 
                     }
