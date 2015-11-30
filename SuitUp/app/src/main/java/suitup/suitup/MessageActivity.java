@@ -25,7 +25,7 @@ public class MessageActivity extends AppCompatActivity {
         displaymsg = (TextView) findViewById(R.id.displaymsg);
         friendName = (TextView) findViewById(R.id.textView3);
         friendName.append(" " + AllMessagesActivity.msg.getOwner());
-        displaymsg.append(AllMessagesActivity.msg.getOwner() + ": " + AllMessagesActivity.msg.getText());
+        displaymsg.append(AllMessagesActivity.msg.getOwner() + ": " + AllMessagesActivity.msg.getText() + "\n");
         sendmsg.setOnClickListener(new View.OnClickListener() {
             public void onClick (View v) {
                 sendMessage();
