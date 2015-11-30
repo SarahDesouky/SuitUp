@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class Timeline extends ListActivity {
     public static final String PREFS_NAME = "MyPrefs";
     public static SharedPreferences.Editor editor;
     private ArrayList<String> content = new ArrayList<>();
+    private Button myProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,5 +58,9 @@ public class Timeline extends ListActivity {
         Intent intent = new Intent(getApplicationContext(), pa.getClass());
         startActivity(intent);
     }
+    public  void myProfileClicked(View v){
+        Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
+        startActivity(intent);
 
+    }
 }

@@ -38,9 +38,7 @@ public class PostActivity extends ListActivity {
         post.setText(settings.getString("post", "ana ga3ana"));
         editText = (EditText) findViewById(R.id.editText);
         postButton = (Button) findViewById(R.id.postButton);
-//        comments = new ArrayList<>();
-//        icons = new ArrayList<>();
-        comments.add(":(!!!!");
+            comments.add(":(!!!!");
         for(int i =0;i<comments.size();i++)
             icons.add(R.drawable.donna);
         adapter2 = new CustomListAdapter(PostActivity.this, comments, icons);
