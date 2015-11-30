@@ -90,7 +90,9 @@ public class MainActivity extends AppCompatActivity {
                         else {
                             // Toast.makeText(getApplicationContext(), StaticData.CurrentUser.username, Toast.LENGTH_LONG).show();
                             getUser(session.getUserId(),twitterImage);
+
                             Intent intent = new Intent(getApplicationContext(),TweetTestActivity.class);
+
                             startActivity(intent);
                         }
 

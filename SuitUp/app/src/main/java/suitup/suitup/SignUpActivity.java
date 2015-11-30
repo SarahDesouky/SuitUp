@@ -102,6 +102,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         //Uncomment to redirect to My Mssages View
         Intent intent = new Intent(this.getBaseContext(), TweetTestActivity.class);
+
         startActivity(intent);
     }
 
