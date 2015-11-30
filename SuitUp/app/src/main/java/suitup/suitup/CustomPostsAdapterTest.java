@@ -17,6 +17,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.net.Uri;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -44,6 +46,8 @@ public class CustomPostsAdapterTest extends ArrayAdapter {
     public View getView(int position, final View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         final View CustomView = inflater.inflate(R.layout.custom_row_posts, parent, false);
+        TextView poster = (TextView)CustomView.findViewById(R.id.poster);
+        poster.setText(StaticData.CurrentUser.fname + " " + StaticData.CurrentUser.lname + "\n");
 
         String post = "";
         Uri image = null;

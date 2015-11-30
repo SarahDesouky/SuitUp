@@ -47,12 +47,17 @@
     <TextView android:layout_row="6" android:layout_column="0"
         android:text="Gender: " />
     <LinearLayout android:layout_row="6" android:layout_column="1">
-        <RadioButton android:text="Male" android:layout_marginRight="20dp" android:layout_height="wrap_content" android:layout_width="wrap_content"
-            android:id="@+id/male"
-            />
-        <RadioButton android:text="Female" android:layout_height="wrap_content" android:layout_width="wrap_content"
-            android:id="@+id/female"
-            />
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RadioButton android:text="Male" android:layout_marginRight="20dp" android:layout_height="wrap_content" android:layout_width="wrap_content"
+                android:id="@+id/male"
+                />
+            <RadioButton android:text="Female" android:layout_height="wrap_content" android:layout_width="wrap_content"
+                android:id="@+id/female"
+                />
+        </RadioGroup>
+
     </LinearLayout>
 
 

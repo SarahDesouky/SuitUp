@@ -109,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
                 logoutButton.setVisibility(View.VISIBLE);
             }
 
+
+
             @Override
             public void failure(TwitterException exception) {
                 Log.d("TwitterKit", "Login with Twitter failure", exception);
