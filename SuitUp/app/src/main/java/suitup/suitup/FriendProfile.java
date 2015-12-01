@@ -160,11 +160,6 @@ public class FriendProfile extends Activity {
         }
     }
 
-    public void viewSettings(View view){
-        Intent settings = new Intent(view.getContext(), Settings.class);
-        startActivityForResult(settings, 0);
-    }
-
     public void viewMsgs(View view){
         String friendName = ((TextView)findViewById(R.id.username)).getText().toString();
         Message newMessage = new Message("", StaticData.CurrentUser.fname,friendName );
