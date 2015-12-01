@@ -20,11 +20,9 @@ public class FriendsListActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_list);
-
-        content.add(StaticData.f1.getUsername());
-        content.add(StaticData.f2.getUsername());
-        content.add(StaticData.f3.getUsername());
-        content.add(StaticData.f4.getUsername());
+        for(int i=0; i<StaticData.friends.length; i++){
+            content.add(StaticData.friends[i].getUsername());
+        }
         for(int i =0;i<content.size();i++)
             icons.add(R.drawable.profile);
         adapter = new CustomListAdapter(FriendsListActivity.this, content, icons);

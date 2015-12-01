@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.graphics.Color;
+import java.util.Arrays;
+import java.util.List;
 
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
@@ -34,6 +36,7 @@ public class FriendProfile extends Activity {
     ArrayAdapter adapter;
     String value;
     TextView myFriend;
+    Button b;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class FriendProfile extends Activity {
 
         myFriend = (TextView) findViewById(R.id.textView4);
         myFriend.setTextColor(Color.parseColor("#40E0D0"));
+        b = (Button) findViewById(R.id.button);
         lstview = (ListView)findViewById(R.id.list);
         adapter = new CustomPostsAdapterTest(this,Posts,Images);
         lstview.setAdapter(adapter);
@@ -171,6 +175,17 @@ public class FriendProfile extends Activity {
         imageToUpload = null;
         Button upload = (Button)findViewById(R.id.upload_btn);
         upload.setVisibility(View.VISIBLE);
+    }
+
+    public void removeOrAddFriend(View view){
+        if(b.getText()=="Remove Friend") {
+            b.setText("Add Friend");
+            myFriend.setText("");
+        }
+        else {
+            b.setText("Remove Friend");
+            myFriend.setText("My Friend");
+        }
     }
 }
 
