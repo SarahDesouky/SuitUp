@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class AllMessagesActivity extends Activity {
     public static ArrayList<Message> msgs = new ArrayList<>();
     public static Message msg;
-
+    public ArrayAdapter<Message> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +32,7 @@ public class AllMessagesActivity extends Activity {
         msgs.add(new Message("Message 4", "Doha", "Alaa"));
         msgs.add(new Message("Message 5", "Lina", "Alaa"));
 
-        ArrayAdapter<Message> adapter = new ArrayAdapter<Message>(this,
+        adapter = new ArrayAdapter<Message>(this,
                 android.R.layout.simple_list_item_1, msgs) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
