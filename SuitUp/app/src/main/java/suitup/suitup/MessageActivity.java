@@ -32,15 +32,16 @@ public class MessageActivity extends AppCompatActivity {
         sendmsg = (Button) findViewById(R.id.sendmsg);
         inputmsg = (EditText) findViewById(R.id.inputmsg);
         displaymsg = (TextView) findViewById(R.id.displaymsg);
+        friendName = (TextView) findViewById(R.id.textView3);
 
-             friendName = (TextView) findViewById(R.id.textView3);
-
-        if(frname.equals(null)) {
+        if(frname == null) {
             friendName.append(" " + AllMessagesActivity.msg.getOwner());
             displaymsg.append(AllMessagesActivity.msg.getOwner() + ": " + AllMessagesActivity.msg.getText() + "\n");
         }
         else {
             friendName.append(" " + frname);
+            editor.putString("friendname", null).commit();
+
         }
         sendmsg.setOnClickListener(new View.OnClickListener() {
             public void onClick (View v) {

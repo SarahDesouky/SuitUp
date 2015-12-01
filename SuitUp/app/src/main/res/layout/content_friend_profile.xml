@@ -71,16 +71,6 @@
                     android:scaleType="centerInside"
                     android:clickable="true"
                     android:onClick="viewFriends" />
-
-                <ImageView
-                    android:layout_marginTop="10dp"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/gear"
-                    android:scaleType="centerInside"
-                    android:clickable="true"
-                    android:onClick="viewSettings" />
                 <ImageView
                     android:layout_marginTop="10dp"
                     android:layout_width="30dp"
