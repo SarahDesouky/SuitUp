@@ -1,6 +1,7 @@
 package suitup.suitup;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -35,10 +36,14 @@ public class FriendProfile extends Activity {
     String value;
     TextView myFriend;
 
+    public static SharedPreferences.Editor editor;
+    public static final String PREFS_NAME = "MyPrefs";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_profile);
+
 
         myFriend = (TextView) findViewById(R.id.textView4);
         myFriend.setTextColor(Color.parseColor("#40E0D0"));
@@ -157,7 +162,12 @@ public class FriendProfile extends Activity {
     }
 
     public void viewMsgs(View view){
-        Intent msg = new Intent(view.getContext(), AllMessagesActivity.class);
+        String friendName = ((TextView)findViewById(R.id.username)).getText().toString();
+        Message newMessage = new Message("", StaticData.CurrentUser.fname,friendName );
+        Intent msg = new Intent(view.getContext(), MessageActivity.class);
+        final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        editor = settings.edit();
+        editor.putString("friendname", friendName).commit();
         startActivityForResult(msg, 0);
     }
 
