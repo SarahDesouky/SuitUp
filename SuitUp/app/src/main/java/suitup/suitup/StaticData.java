@@ -15,6 +15,12 @@ public class StaticData {
     static User f4 = new User("Lobna", "lobna@gmail.com", new Date("1/9/2015"));
     static User[] friends = {f1,f2,f3,f4};
 
+    static User m1 = new User("Ariel", "Ariel@gmail.com", new Date("1/9/2015"));
+    static User m2 = new User("Jasmin", "Jasmin@gmail.com", new Date("1/9/2015"));
+    static User m3 = new User("SnowWhite", "SnowWhite@gmail.com", new Date("1/9/2015"));
+    static User m4 = new User("Rapenzul", "Rapenzul@gmail.com", new Date("1/9/2015"));
+    static User[] members = {m1,m2,m3,m4};
+
     static {
         CurrentUser.setFriends(friends);
     }

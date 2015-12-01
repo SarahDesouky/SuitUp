@@ -11,6 +11,8 @@
     <string name="title_activity_tweet_test">TweetTestActivity</string>
     <string name="title_activity_friends_list">FriendsListActivity</string>
     <string name="title_activity_friend_profile">FriendProfile</string>
+    <string name="title_activity_member_profile">MemberProfile</string>
+    <string name="title_activity_members_list">MembersListActivity</string>
 
 
 </resources>

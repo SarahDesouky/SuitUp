@@ -63,4 +63,8 @@ public class Timeline extends ListActivity {
         startActivity(intent);
 
     }
+    public  void AllMembers(View v){
+        Intent intent = new Intent(getApplicationContext(), MembersListActivity.class);
+        startActivity(intent);
+    }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,16 +18,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.graphics.Color;
-import java.util.Arrays;
-import java.util.List;
 
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class FriendProfile extends Activity {
+public class MemberProfile extends Activity {
 
     ListView lstview;
     ArrayList<String> Posts = new ArrayList<String>();
@@ -46,7 +44,7 @@ public class FriendProfile extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friend_profile);
+        setContentView(R.layout.activity_member_profile);
 
         myFriend = (TextView) findViewById(R.id.textView4);
         myFriend.setTextColor(Color.parseColor("#40E0D0"));

@@ -67,7 +67,13 @@
             android:label="@string/title_activity_friends_list" />
         <activity
             android:name=".FriendProfile"
-            android:label="@string/title_activity_friend_profile"></activity>
+            android:label="@string/title_activity_friend_profile" />
+        <activity
+            android:name=".MembersListActivity"
+            android:label="@string/title_activity_members_list" />
+        <activity
+            android:name=".MemberProfile"
+            android:label="@string/title_activity_member_profile"></activity>
     </application>
 
 </manifest>
