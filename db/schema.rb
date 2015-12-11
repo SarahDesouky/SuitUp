@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151110102330) do
+ActiveRecord::Schema.define(version: 20151211134859) do
 
   create_table "comments", force: true do |t|
     t.integer  "owner_id"
@@ -78,12 +78,12 @@ ActiveRecord::Schema.define(version: 20151110102330) do
     t.string   "lname"
     t.date     "date_of_birth"
     t.string   "email"
-    t.string   "password"
     t.string   "avatar_url"
     t.string   "gender"
     t.string   "country"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "twitter_id"
   end
 
 end

@@ -70,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         loginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
         logoutButton = (Button) findViewById(R.id.twitter_logout_button);
 
+        Intent intent = new Intent(this, UserActivityTest.class);
+        startActivity(intent);
+
         loginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
