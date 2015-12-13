@@ -34,6 +34,10 @@ import org.w3c.dom.Text;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 public class UserProfileActivity extends AppCompatActivity{
 
 
@@ -43,7 +47,7 @@ public class UserProfileActivity extends AppCompatActivity{
     private final int SELECT_PHOTO = 1;
     boolean imageUploaded = false;
     Uri imageToUpload;
-    ArrayAdapter adapter;
+    ArrayAdapter adapter2;
     public static SharedPreferences.Editor editor;
     public static final String PREFS_NAME = "MyPrefs";
 
@@ -55,9 +59,41 @@ public class UserProfileActivity extends AppCompatActivity{
         setContentView(R.layout.activity_user_profile);
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         editor = settings.edit();
+
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
+        ourAPI api = adapter.create(ourAPI.class);
+        String twitterId = settings.getString("twitter_id", "");
+        api.getUser(twitterId, new retrofit.Callback<models.User>() {
+
+            public void success(models.User user, Response response) {
+                String fname = user.getFname();
+                String lname = user.getLname();
+                String country = user.getCountry();
+                String gender = user.getGender();
+                String avatar = user.getAvatar_url();
+                String email = user.getEmail();
+                String dateofbirth = user.getDate_of_birth();
+                ((TextView)findViewById(R.id.username)).setText(fname + " " + lname);
+                ((TextView)findViewById(R.id.country)).setText(country);
+                ((TextView)findViewById(R.id.dateofbirth)).setText("Birthday: " +  dateofbirth);
+                ((TextView)findViewById(R.id.email)).setText(email);
+                ((TextView)findViewById(R.id.gender)).setText(gender);
+                try {
+                    new DownloadImageTask((ImageView) findViewById(R.id.avatar))
+                            .execute(avatar);
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            public void failure(RetrofitError error) {
+            }
+        });
+
+
         lstview = (ListView)findViewById(R.id.list);
-        adapter = new CustomPostsAdapterTest(this,Posts,Images);
-        lstview.setAdapter(adapter);
+        adapter2 = new CustomPostsAdapterTest(this,Posts,Images);
+        lstview.setAdapter(adapter2);
         lstview.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.v("Module Item Trigger", "Module item was triggered");
@@ -71,31 +107,12 @@ public class UserProfileActivity extends AppCompatActivity{
             }
         });
 
-        Posts.add("Hello!! It's me");
-        Posts.add("Never ending to do list!");
-        Posts.add("Excited for the new mocking jay movie");
-        Images.add(Uri.EMPTY);
-        Images.add(Uri.EMPTY);
-        Images.add(Uri.EMPTY);
-
-
-        String image = settings.getString("avatar","");
-        String fname = settings.getString("fname","");
-        String lname = settings.getString("lname","");
-        try {
-
-            new DownloadImageTask((ImageView) findViewById(R.id.avatar))
-                    .execute(image);
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
-        TextView name = (TextView)findViewById(R.id.username);
-        name.setText(fname + " " + lname);
-        TextView country = (TextView) findViewById(R.id.country);
-        country.setText(StaticData.CurrentUser.country);
-//        ArrayAdapter wallAdapter = new CustomAdapter(this, content);
-//        ListView wallListView = (ListView) findViewById(R.id.wallListView);
-//        wallListView.setAdapter(wallAdapter);
+//        Posts.add("Hello!! It's me");
+//        Posts.add("Never ending to do list!");
+//        Posts.add("Excited for the new mocking jay movie");
+//        Images.add(Uri.EMPTY);
+//        Images.add(Uri.EMPTY);
+//        Images.add(Uri.EMPTY);
     }
 
 
@@ -136,15 +153,10 @@ public class UserProfileActivity extends AppCompatActivity{
                     .text(post);
         }
         builder.show();
-//        TextView posts = (TextView)findViewById(R.id.posts);
-//        posts.append("\n" + post);
-        //lstview.invalidateViews();
-        adapter.notifyDataSetChanged();
+        adapter2.notifyDataSetChanged();
     }
     public void Post(View view) {
         String post = ((EditText)findViewById(R.id.tweet)).getText().toString();
-//        TextView posts = (TextView)findViewById(R.id.posts);
-//        posts.append("\n" + post);
         if(imageUploaded) {
             Images.add(imageToUpload);
         }
@@ -152,10 +164,9 @@ public class UserProfileActivity extends AppCompatActivity{
             Images.add(Uri.EMPTY);
         }
         Posts.add(post);
-        adapter.notifyDataSetChanged();
+        adapter2.notifyDataSetChanged();
 
     }
-
 
     public void viewFriends(View view){
         Intent friendList = new Intent(view.getContext(), FriendsListActivity.class);
@@ -167,7 +178,6 @@ public class UserProfileActivity extends AppCompatActivity{
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, SELECT_PHOTO);
     }
-
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
@@ -192,14 +202,10 @@ public class UserProfileActivity extends AppCompatActivity{
                     catch(Exception e) {
                         String s = e.toString();
                     }
-//                        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-//                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-//                        imageView.setImageBitmap(selectedImage);
-
-
                 }
         }
     }
+
     public void viewSettings(View view){
         Intent settings = new Intent(view.getContext(), Settings.class);
         startActivityForResult(settings, 0);
@@ -212,6 +218,7 @@ public class UserProfileActivity extends AppCompatActivity{
     public void viewTimeline(View view){
         Intent msg = new Intent(view.getContext(), Timeline.class);
         startActivityForResult(msg, 0);}
+
     public void removeImage(View view) {
         ImageView viewimage = (ImageView)findViewById(R.id.imagetest);
         viewimage.setVisibility(View.GONE);

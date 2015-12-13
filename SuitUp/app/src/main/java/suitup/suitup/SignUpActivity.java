@@ -48,7 +48,6 @@ public class SignUpActivity extends AppCompatActivity {
         avatar = intent.getStringExtra(MainActivity.USER_AVATAR_INTENT);
         EditText username = (EditText)findViewById(R.id.username);
         username.setText(name);
-
         final EditText date_of_birth = (EditText)findViewById(R.id.dob);
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -60,7 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                String myFormat = "yyyy-MM-dd'T'HH:mm:ss.ZZZ'Z'";
+                String myFormat = "dd-MM-yyyy";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
                 date_of_birth.setText(sdf.format(myCalendar.getTime()));
@@ -93,21 +92,9 @@ public class SignUpActivity extends AppCompatActivity {
         boolean male = ((RadioButton)findViewById(R.id.male)).isChecked();
         String gender = (female)? "Female": "Male";
 
-
-
-//        DatePicker dob = (DatePicker)findViewById(R.id.dob);
-        Date dob = new Date(myCalendar.get(Calendar.DATE));
-        StaticData.CurrentUser.username = username;
-        StaticData.CurrentUser.email = email;
-        StaticData.CurrentUser.dob = dob;
-        StaticData.CurrentUser.avatar = avatar;
-        StaticData.CurrentUser.fname =fname;
-        StaticData.CurrentUser.lname = lname;
-        StaticData.CurrentUser.country = country;
-        StaticData.CurrentUser.gender = (female)?"Female":"Male";
-
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
+
         editor.putString("username", username).commit();
         editor.putString("email", email).commit();
         editor.putString("dob", dateofbirth).commit();
@@ -115,34 +102,21 @@ public class SignUpActivity extends AppCompatActivity {
         editor.putString("country", country).commit();
         editor.putString("fname", fname).commit();
         editor.putString("lname", lname).commit();
-        editor.putString("gender", StaticData.CurrentUser.gender ).commit();
+        editor.putString("gender", gender ).commit();
 
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
         ourAPI api = adapter.create(ourAPI.class);
         api.CreateUser(fname, lname, dateofbirth, email,
                 image, gender, country, twitter_id, new Callback<models.User>() {
 
-            @Override
             public void success(User user, Response response) {
                 Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
                 startActivity(intent);
             }
-
-            @Override
             public void failure(RetrofitError error) {
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
-
             }
         });
-
-
-//        Intent intent = new Intent(this.getBaseContext(), Timeline.class);
-//        startActivity(intent);
-
-        //Uncomment to redirect to My Mssages View
-//        Intent intent = new Intent(this.getBaseContext(), UserProfileActivity.class);
-//
-//        startActivity(intent);
     }
 
 }

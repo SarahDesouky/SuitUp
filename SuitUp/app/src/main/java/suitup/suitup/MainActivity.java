@@ -64,11 +64,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         final SharedPreferences.Editor editor = settings.edit();
+        //editor.putString("twitter_id", "").commit();
         //editor.clear().commit();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         loginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
-
         String idstored = settings.getString("twitter_id", "");
         boolean AlreadyIn = (idstored == "") ? false : true;
         if (AlreadyIn) {
@@ -92,17 +92,21 @@ public class MainActivity extends AppCompatActivity {
                             RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
                             ourAPI api = adapter.create(ourAPI.class);
                             api.getUser(twitterId, new retrofit.Callback<models.User>() {
-
                                 public void success(models.User user, Response response) {
-                                    Intent intent = new Intent(getApplicationContext(), Timeline.class);
-                                    startActivity(intent);
+                                    if(user!=null) {
+                                        Intent intent = new Intent(getApplicationContext(), Timeline.class);
+                                        startActivity(intent);
+                                    }
+                                    else {
+                                        Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                                        intent.putExtra(USER_NAME_INTENT, session.getUserName());
+                                        intent.putExtra(USER_AVATAR_INTENT, twitterImage);
+                                        startActivity(intent);
+                                    }
                                 }
 
                                 public void failure(RetrofitError error) {
-                                    Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-                                    intent.putExtra(USER_NAME_INTENT, session.getUserName());
-                                    intent.putExtra(USER_AVATAR_INTENT, twitterImage);
-                                    startActivity(intent);
+
                                 }
                             });
                         }
@@ -125,43 +129,6 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         loginButton.onActivityResult(requestCode, resultCode, data);
     }
-
-//    public void log_out(View view) {
-//        CookieSyncManager.createInstance(this);
-//        CookieManager cookieManager = CookieManager.getInstance();
-//        cookieManager.removeSessionCookie();
-//        Twitter.getSessionManager().clearActiveSession();
-//        Twitter.logOut();
-//        logoutButton.setVisibility(View.GONE);
-//        loginButton.setVisibility(View.VISIBLE);
-//        //avatar.setImageBitmap(null);
-//        //avatar.setVisibility(View.GONE);
-//    }
-
-//    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-//        ImageView bmImage;
-//
-//        public DownloadImageTask(ImageView bmImage) {
-//            this.bmImage = bmImage;
-//        }
-//
-//        protected Bitmap doInBackground(String... urls) {
-//            String urldisplay = urls[0];
-//            Bitmap mIcon11 = null;
-//            try {
-//                InputStream in = new java.net.URL(urldisplay).openStream();
-//                mIcon11 = BitmapFactory.decodeStream(in);
-//            } catch (Exception e) {
-//                Log.e("Error", e.getMessage());
-//                e.printStackTrace();
-//            }
-//            return mIcon11;
-//        }
-//
-//        protected void onPostExecute(Bitmap result) {
-//            bmImage.setImageBitmap(result);
-//        }
-//    }
 
     public boolean AlreadySignedUp(Long ID) {
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
