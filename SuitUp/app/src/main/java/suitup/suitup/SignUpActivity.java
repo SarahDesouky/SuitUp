@@ -13,17 +13,27 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import models.*;
+import models.User;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 public class SignUpActivity extends AppCompatActivity {
 
     public static final String PREFS_NAME = "MyPrefs";
     String avatar;
     final Calendar myCalendar = Calendar.getInstance();
+    static String twitter_id = "";
+    static String image = "";
 
 
     @Override
@@ -50,7 +60,7 @@ public class SignUpActivity extends AppCompatActivity {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                String myFormat = "MM/dd/yy"; //In which you need put here
+                String myFormat = "yyyy-MM-dd'T'HH:mm:ss.ZZZ'Z'";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
                 date_of_birth.setText(sdf.format(myCalendar.getTime()));
@@ -66,17 +76,23 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        twitter_id = settings.getString("twitter_id", "");
+        image = settings.getString("avatar_url", "");
+
     }
 
     public void SignUp(View view) {
         String username = ((EditText) findViewById(R.id.username)).getText().toString();
         String email = ((EditText) findViewById(R.id.email)).getText().toString();
-        String dateofbirth = ((EditText) findViewById(R.id.dob)).getText().toString();
+        String dateofbirth = ((EditText) findViewById(R.id.dob)).getText().toString() + "";
         String fname = ((EditText)findViewById(R.id.fname)).getText().toString();
         String lname = ((EditText)findViewById(R.id.lname)).getText().toString();
         String country = ((EditText)findViewById(R.id.country)).getText().toString();
         boolean female = ((RadioButton)findViewById(R.id.female)).isChecked();
         boolean male = ((RadioButton)findViewById(R.id.male)).isChecked();
+        String gender = (female)? "Female": "Male";
+
 
 
 //        DatePicker dob = (DatePicker)findViewById(R.id.dob);
@@ -101,14 +117,32 @@ public class SignUpActivity extends AppCompatActivity {
         editor.putString("lname", lname).commit();
         editor.putString("gender", StaticData.CurrentUser.gender ).commit();
 
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
+        ourAPI api = adapter.create(ourAPI.class);
+        api.CreateUser(fname, lname, dateofbirth, email,
+                image, gender, country, twitter_id, new Callback<models.User>() {
+
+            @Override
+            public void success(User user, Response response) {
+                Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+
+            }
+        });
+
 
 //        Intent intent = new Intent(this.getBaseContext(), Timeline.class);
 //        startActivity(intent);
 
         //Uncomment to redirect to My Mssages View
-        Intent intent = new Intent(this.getBaseContext(), UserProfileActivity.class);
-
-        startActivity(intent);
+//        Intent intent = new Intent(this.getBaseContext(), UserProfileActivity.class);
+//
+//        startActivity(intent);
     }
 
 }

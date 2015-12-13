@@ -1,11 +1,10 @@
 package models;
 import java.util.Date;
 
-
 public class User {
    String fname;
     String lname;
-    Date date_of_birth;
+    String date_of_birth;
     String email;
     String avatar_url;
     String gender;
@@ -31,11 +30,11 @@ public class User {
         this.lname = lname;
     }
 
-    public Date getDate_of_birth() {
+    public String getDate_of_birth() {
         return date_of_birth;
     }
 
-    public void setDate_of_birth(Date date_of_birth) {
+    public void setDate_of_birth(String date_of_birth) {
         this.date_of_birth = date_of_birth;
     }
 

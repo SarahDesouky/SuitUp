@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   get '/users/:twitter_id' => 'users#find'
 
-  #resources :users
+  resources :users
 
     # resources :user do
     #   resources :post do

@@ -35,6 +35,7 @@ public class Settings extends Activity {
 
     public void LogOutClicked(View v){
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        editor.putString("twitter_id","").commit();
         startActivity(intent);
     }
 }

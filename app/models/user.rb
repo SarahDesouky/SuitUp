@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 	has_many :comments, :class_name =>'Comment', :foreign_key=>'owner_id'
 	has_many :messages_sent, :class_name=>'Message', :foreign_key=>'owner_id'
 	has_many :messages_received, :class_name=>'MessagesReceived', :foreign_key=>'user_id'
-	validates :email, presence: true, uniqueness: true, format: {with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i}
+	validates :email, presence: true, format: {with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i}
 	# validates :password, presence: true, length: {in: 5..8}
 	# validates :date_of_birth, presence:true, numericality: {greater_than_or_equal_to: 12}
 	# validate :not_born_in_future

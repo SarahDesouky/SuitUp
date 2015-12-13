@@ -14,7 +14,7 @@
     <string name="title_activity_member_profile">MemberProfile</string>
     <string name="title_activity_members_list">MembersListActivity</string>
     <string name="title_activity_user_activity_test">UserActivityTest</string>
-    <string name="API_BASE_URL">http://192.168.1.106:3000/</string>
+    <string name="API_BASE_URL">http://192.168.8.100:3000/</string>
 
 
 </resources>
