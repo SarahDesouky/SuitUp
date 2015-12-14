@@ -4,13 +4,11 @@ Rails.application.routes.draw do
   get '/users/:twitter_id' => 'users#find'
   put '/users/:twitter_id' => 'users#update'
 
-  resources :users
-
-    # resources :user do
-    #   resources :post do
-    #     resources :comment
-    #   end
-    # end
+  resources :users do
+    resources :post do
+      resources :comment
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

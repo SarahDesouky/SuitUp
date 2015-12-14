@@ -22,10 +22,6 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
-/**
- * Created by sarah on 11/30/2015.
- */
 public class CustomPostsAdapterTest extends ArrayAdapter {
     ArrayList<String> posts;
     ArrayList<Uri> images;
