@@ -23,6 +23,15 @@ def create
 	end 
 end
 
+def update
+	@user = User.where(:twitter_id =>params[:twitter_id]).take
+	if @user.update(user_params)
+		head :no_content
+	else 
+		render json: @user.errors, status: :unprocessable_entity
+	end
+end
+
 # def edit
 # end
 

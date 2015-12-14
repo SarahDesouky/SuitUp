@@ -59,7 +59,7 @@ class User{
         friends[friends.length] = friend;
     }
     User[] getAllFriends() {
-    return friends;
+        return friends;
     }
 
     User(String n, String e, Date d) {
@@ -197,4 +197,3 @@ class Message {
         return this.owner + ", " + this.text;
     }
 }
-

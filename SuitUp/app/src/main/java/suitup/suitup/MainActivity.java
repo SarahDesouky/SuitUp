@@ -2,25 +2,13 @@ package suitup.suitup;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
@@ -30,15 +18,6 @@ import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 import com.twitter.sdk.android.core.models.User;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
-
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.net.URL;
-import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import io.fabric.sdk.android.Fabric;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -85,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
                             User user = userResult.data;
                             twitterImage = user.profileImageUrlHttps.replace("_normal", "");
                             String twitter_id = String.valueOf(session.getUserId());
-                            AddId(session.getUserId());
                             String twitterId = String.valueOf(session.getUserId());
                             editor.putString("avatar_url", twitterImage).commit();
                             editor.putString("twitter_id", String.valueOf(session.getUserId())).commit();
@@ -106,11 +84,13 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
                                 public void failure(RetrofitError error) {
+                                    Log.d("ERROORR ", error.toString(), error);
 
                                 }
                             });
                         }
                         public void failure(TwitterException e) {
+
                         }
                     });
 
@@ -130,53 +110,4 @@ public class MainActivity extends AppCompatActivity {
         loginButton.onActivityResult(requestCode, resultCode, data);
     }
 
-    public boolean AlreadySignedUp(Long ID) {
-        final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        final SharedPreferences.Editor editor = settings.edit();
-        long id = settings.getLong("Id", 0);
-        if (id == ID)
-            return true;
-        else return false;
-    }
-
-    public void AddId(Long ID) {
-        final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        final SharedPreferences.Editor editor = settings.edit();
-        editor.putLong("Id", ID).commit();
-        StaticData.CurrentUser.avatar = twitterImage;
-
-    }
-
-    public suitup.suitup.User getUser(Long ID, String twitterImage) {
-        final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        suitup.suitup.User user = new suitup.suitup.User();
-        final SharedPreferences.Editor editor = settings.edit();
-
-        String username = settings.getString("username", null);
-        String email = settings.getString("email", null);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa");
-        String date = settings.getString("dob", null);
-        String image = settings.getString("avatar", twitterImage);
-        String gender = settings.getString("gender", "");
-        String country = settings.getString("country", "");
-        String fname = settings.getString("fname", "");
-        String lname = settings.getString("lname", "");
-        Date dob = new Date();
-        try {
-            dob = dateFormat.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        StaticData.CurrentUser.username = username;
-        StaticData.CurrentUser.email = email;
-        StaticData.CurrentUser.dob = dob;
-        StaticData.CurrentUser.avatar = image;
-        StaticData.CurrentUser.fname = fname;
-        ;
-        StaticData.CurrentUser.lname = lname;
-        StaticData.CurrentUser.country = country;
-        StaticData.CurrentUser.gender = gender;
-        return StaticData.CurrentUser;
-    }
 }

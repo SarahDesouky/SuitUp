@@ -30,5 +30,10 @@ public interface ourAPI {
                     @Field("user[twitter_id]") String twitter_id,
                     Callback<User> callback);
 
-
+    @FormUrlEncoded
+    @PUT("/users/{twitter_id}")
+    void updateUser(@Path("twitter_id") String id, @Field("user[fname]") String fname, @Field("user[lname]") String lname,
+                    @Field("user[email]") String email,
+                    @Field("user[country]") String country,
+                    Callback<User> callback );
 }

@@ -82,6 +82,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void SignUp(View view) {
+
         String username = ((EditText) findViewById(R.id.username)).getText().toString();
         String email = ((EditText) findViewById(R.id.email)).getText().toString();
         String dateofbirth = ((EditText) findViewById(R.id.dob)).getText().toString() + "";
@@ -92,17 +93,17 @@ public class SignUpActivity extends AppCompatActivity {
         boolean male = ((RadioButton)findViewById(R.id.male)).isChecked();
         String gender = (female)? "Female": "Male";
 
-        final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        final SharedPreferences.Editor editor = settings.edit();
+//        final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+//        final SharedPreferences.Editor editor = settings.edit();
 
-        editor.putString("username", username).commit();
-        editor.putString("email", email).commit();
-        editor.putString("dob", dateofbirth).commit();
-        editor.putString("avatar", avatar).commit();
-        editor.putString("country", country).commit();
-        editor.putString("fname", fname).commit();
-        editor.putString("lname", lname).commit();
-        editor.putString("gender", gender ).commit();
+//        editor.putString("username", username).commit();
+//        editor.putString("email", email).commit();
+//        editor.putString("dob", dateofbirth).commit();
+//        editor.putString("avatar", avatar).commit();
+//        editor.putString("country", country).commit();
+//        editor.putString("fname", fname).commit();
+//        editor.putString("lname", lname).commit();
+//        editor.putString("gender", gender ).commit();
 
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
         ourAPI api = adapter.create(ourAPI.class);
