@@ -98,15 +98,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginLeft="30dp">
-                <ImageView
-                    android:layout_marginTop="10dp"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/fri"
-                    android:scaleType="centerInside"
-                    android:clickable="true"
-                    android:onClick="viewFriends" />
+                <!--<ImageView-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:layout_width="30dp"-->
+                    <!--android:layout_height="30dp"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:src="@drawable/fri"-->
+                    <!--android:scaleType="centerInside"-->
+                    <!--android:clickable="true"-->
+                    <!--android:onClick="viewFriends" />-->
                 <ImageView
                     android:layout_marginTop="10dp"
                     android:layout_width="30dp"
