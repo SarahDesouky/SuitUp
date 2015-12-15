@@ -2,7 +2,6 @@ package suitup.suitup;
 
 import java.util.List;
 
-
 import models.*;
 import models.User;
 import retrofit.Callback;
@@ -39,4 +38,11 @@ public interface ourAPI {
 
     @GET("/users/")
     void getAllUsers(Callback<List<User>> callback);
+
+    @GET("/users/{twitter_id}/friends")
+    void getFriends(@Path("twitter_id") String id, Callback<List<User>> callback);
+
+    @GET("/friends/{friend_id}")
+    void getFriend(@Path("friend_id") String id, Callback<User> callback);
+
 }

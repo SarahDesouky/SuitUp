@@ -33,6 +33,19 @@ def update
 	end
 end
 
+def getFriends
+	@user = User.where(:twitter_id => params[:twitter_id]).take
+	@users = @user.friends
+	#@users = User.all
+	#@followships.each_with_index { |val,index| @users[index] = User.where(:id => val.followee_id ) }
+	render json: @users
+end
+
+def findFriend
+	@user = User.where(:id => params[:id]).take
+	render json: @user
+end
+
 # def edit
 # end
 

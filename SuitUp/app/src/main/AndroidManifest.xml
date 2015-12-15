@@ -60,7 +60,6 @@
         <activity
             android:name=".TweetTestActivity"
             android:label="@string/title_activity_tweet_test" />
-        <activity android:name=".FriendList" />
         <activity android:name=".Settings" />
         <activity
             android:name=".FriendsListActivity"

@@ -26,6 +26,10 @@ import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 public class FriendProfile extends Activity {
 
     ListView lstview;
@@ -34,7 +38,7 @@ public class FriendProfile extends Activity {
     private final int SELECT_PHOTO = 1;
     boolean imageUploaded = false;
     Uri imageToUpload;
-    ArrayAdapter adapter;
+    ArrayAdapter adapter2;
     String value;
     TextView myFriend;
     Button b;
@@ -48,24 +52,57 @@ public class FriendProfile extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_profile);
 
+        final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        editor = settings.edit();
+
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
+        ourAPI api = adapter.create(ourAPI.class);
+        String friendId = settings.getString("friend_id", "");
+        api.getFriend(friendId, new retrofit.Callback<models.User>() {
+
+            public void success(models.User user, Response response) {
+                String fname = user.getFname();
+                String lname = user.getLname();
+                String country = user.getCountry();
+                String gender = user.getGender();
+                String avatar = user.getAvatar_url();
+                String email = user.getEmail();
+                String dateofbirth = user.getDate_of_birth();
+                ((TextView) findViewById(R.id.username)).setText(fname + " " + lname);
+                ((TextView) findViewById(R.id.country)).setText(country);
+                ((TextView) findViewById(R.id.dateofbirth)).setText("Birthday: " + dateofbirth);
+                ((TextView) findViewById(R.id.email)).setText(email);
+                ((TextView) findViewById(R.id.gender)).setText(gender);
+                try {
+                    new DownloadImageTask((ImageView) findViewById(R.id.avatar))
+                            .execute(avatar);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            public void failure(RetrofitError error) {
+            }
+        });
+
         myFriend = (TextView) findViewById(R.id.textView4);
         myFriend.setTextColor(Color.parseColor("#40E0D0"));
         b = (Button) findViewById(R.id.button);
         lstview = (ListView)findViewById(R.id.list);
-        adapter = new CustomPostsAdapterTest(this,Posts,Images);
-        lstview.setAdapter(adapter);
+        adapter2 = new CustomPostsAdapterTest(this,Posts,Images);
+        lstview.setAdapter(adapter2);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            value = extras.getString("friendName");
-        }
-        String fname = value;
-        String lname = "";
-
-        TextView name = (TextView)findViewById(R.id.username);
-        name.setText(fname + " " + lname);
-        TextView country = (TextView) findViewById(R.id.country);
-        country.setText(StaticData.CurrentUser.country);
+//        Bundle extras = getIntent().getExtras();
+//        if (extras != null) {
+//            value = extras.getString("friendName");
+//        }
+//        String fname = value;
+//        String lname = "";
+//
+//        TextView name = (TextView)findViewById(R.id.username);
+//        name.setText(fname + " " + lname);
+//        TextView country = (TextView) findViewById(R.id.country);
+//        country.setText(StaticData.CurrentUser.country);
     }
 
 
@@ -106,7 +143,7 @@ public class FriendProfile extends Activity {
                     .text(post);
         }
         builder.show();
-        adapter.notifyDataSetChanged();
+        adapter2.notifyDataSetChanged();
     }
 
     public void Post(View view) {
@@ -118,7 +155,7 @@ public class FriendProfile extends Activity {
             Images.add(Uri.EMPTY);
         }
         Posts.add(post);
-        adapter.notifyDataSetChanged();
+        adapter2.notifyDataSetChanged();
     }
 
     public void viewFriends(View view){
