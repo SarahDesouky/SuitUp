@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151213114221) do
+ActiveRecord::Schema.define(version: 20151214202227) do
 
   create_table "comments", force: true do |t|
     t.integer  "owner_id"
@@ -33,6 +33,13 @@ ActiveRecord::Schema.define(version: 20151213114221) do
 
   add_index "followships", ["followee_id"], name: "index_followships_on_followee_id"
   add_index "followships", ["follower_id"], name: "index_followships_on_follower_id"
+
+  create_table "friendships", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "friend_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "message_threads", force: true do |t|
     t.datetime "created_at"

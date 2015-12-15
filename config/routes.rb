@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   get '/users/:twitter_id' => 'users#find'
   put '/users/:twitter_id' => 'users#update'
+  get 'users/:twitter_id/friends' => "users#getFriends"
+  get '/friends/:id' => 'users#findFriend'
 
   resources :users
 
