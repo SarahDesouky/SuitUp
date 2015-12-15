@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get '/friends/:id' => 'users#findFriend'
   post '/users/:twitter_id/friends' => 'users#addFriend'
   delete '/users/:twitter_id/friends/:id' => 'users#removeFriend'
+  get '/users/:twitter_id/friends/:id' => 'users#isFriend'
 
 
   resources :users do
