@@ -6,13 +6,11 @@ Rails.application.routes.draw do
   get 'users/:twitter_id/friends' => "users#getFriends"
   get '/friends/:id' => 'users#findFriend'
 
-  resources :users
-
-    # resources :user do
-    #   resources :post do
-    #     resources :comment
-    #   end
-    # end
+  resources :users do
+    resources :post do
+      resources :comment
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
