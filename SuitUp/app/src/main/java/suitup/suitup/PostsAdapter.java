@@ -30,19 +30,15 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         this.postOwners = postOwners;
     }
 
-    PostsAdapter(Context context, List<Post> posts) {
-        super(context, R.layout.custom_row_posts, posts);
-        this.posts = posts;
-    }
-
     public View getView(int position, final View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        final View CustomView = inflater.inflate(R.layout.custom_row, parent, false);
-        ImageView postImage = (ImageView)CustomView.findViewById(R.id.imageWall);
-        TextView postText = (TextView)CustomView.findViewById(R.id.textWall);
+        final View CustomView = inflater.inflate(R.layout.custom_row_posts, parent, false);
+        ImageView postImage = (ImageView)CustomView.findViewById(R.id.image);
+        TextView postText = (TextView)CustomView.findViewById(R.id.text);
+        TextView postOwner = (TextView)CustomView.findViewById(R.id.poster);
         Post p = posts.get(position);
         int pos = posts.indexOf(p);
-        String ownerName = postOwners.get(pos).getFname();
+        postOwner.setText(postOwners.get(pos).getFname() + " " + postOwners.get(pos).getLname());
         String text = p.getText();
         postText.setText(text);
         String image = p.getImage_url();

@@ -44,12 +44,17 @@ import retrofit.client.Response;
 public class UserProfileActivity extends AppCompatActivity{
 
     ListView postsList;
+    ArrayList<String> postOwnersIDs = new ArrayList<String>();
     ArrayList<User> postOwners = new ArrayList<models.User>();
+    List<Post> myPosts;
+    ArrayAdapter<models.Post> adapter;
     private final int SELECT_PHOTO = 1;
     boolean imageUploaded = false;
     Uri imageToUpload;
     public static SharedPreferences.Editor editor;
     public static final String PREFS_NAME = "MyPrefs";
+
+    private ArrayAdapter<Post> adapter2;
 
 
 
@@ -89,22 +94,26 @@ public class UserProfileActivity extends AppCompatActivity{
 
                 api.getMyPosts(twitterId, new Callback<List<models.Post>>() {
                     public void success(List<Post> posts, Response response) {
-                        for (int i=0; i<posts.size(); i++){
+                        for (int i = 0; i < posts.size(); i++) {
                             String ownerID = String.valueOf(posts.get(i).getOwner_id());
-                            api.getFriend(ownerID, new retrofit.Callback<models.User>() {
+                            postOwnersIDs.add(ownerID);
+                        }
+                        myPosts = posts;
+                        for (int i = 0; i < postOwnersIDs.size(); i++) {
+                            api.getFriend(postOwnersIDs.get(i), new retrofit.Callback<models.User>() {
                                 public void success(models.User user, Response response) {
                                     postOwners.add(user);
-                                    Log.d("owners",user.getEmail());
+                                    if (postOwners.size() == myPosts.size()) {
+                                        ArrayAdapter<models.Post> adapter2 = new PostsAdapter(getApplicationContext(), myPosts, postOwners);
+                                        postsList = (ListView) findViewById(R.id.list);
+                                        postsList.setAdapter(adapter2);
+                                    }
                                 }
                                 public void failure(RetrofitError error) {
                                     Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
-                                    Log.d("owners","No");
                                 }
                             });
                         }
-                        ArrayAdapter<models.Post> adapter = new PostsAdapter(getApplicationContext(), posts, postOwners);
-                        postsList = (ListView) findViewById(R.id.list);
-                        postsList.setAdapter(adapter);
                     }
 
                     public void failure(RetrofitError error) {
