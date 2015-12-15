@@ -35,6 +35,7 @@ import java.util.List;
 
 import models.*;
 import models.Post;
+import models.User;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -43,6 +44,7 @@ import retrofit.client.Response;
 public class UserProfileActivity extends AppCompatActivity{
 
     ListView postsList;
+    ArrayList<User> postOwners = new ArrayList<models.User>();
     private final int SELECT_PHOTO = 1;
     boolean imageUploaded = false;
     Uri imageToUpload;
@@ -87,33 +89,25 @@ public class UserProfileActivity extends AppCompatActivity{
 
                 api.getMyPosts(twitterId, new Callback<List<models.Post>>() {
                     public void success(List<Post> posts, Response response) {
-                        ArrayAdapter<models.Post> adapter = new PostsAdapter(getApplicationContext(), posts);
-                        postsList = (ListView) findViewById(R.id.list);
-                        postsList.setAdapter(adapter);
-//                        for (int i = 0; i < posts.size(); i++) {
-//                            postText.add(posts.get(i).getText());
-//                            postImage.add(posts.get(i).getImageURL());
-//                        }
-                    }
-
-                    public void failure(RetrofitError error) {
-//                        Log.d("", error.getMessage());
-//                        throw error;
-                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                });
-
-
-                api.getMyPosts(twitterId, new retrofit.Callback<List<models.Post>>() {
-                    public void success(List<models.Post> posts, Response response) {
-                        ArrayAdapter<models.Post> adapter = new PostsAdapter(getApplicationContext(), posts);
+                        for (int i=0; i<posts.size(); i++){
+                            String ownerID = String.valueOf(posts.get(i).getOwner_id());
+                            api.getFriend(ownerID, new retrofit.Callback<models.User>() {
+                                public void success(models.User user, Response response) {
+                                    postOwners.add(user);
+                                    Log.d("owners",user.getEmail());
+                                }
+                                public void failure(RetrofitError error) {
+                                    Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                                    Log.d("owners","No");
+                                }
+                            });
+                        }
+                        ArrayAdapter<models.Post> adapter = new PostsAdapter(getApplicationContext(), posts, postOwners);
                         postsList = (ListView) findViewById(R.id.list);
                         postsList.setAdapter(adapter);
                     }
 
                     public void failure(RetrofitError error) {
-//                        Log.d("", error.getMessage());
-//                        throw error;
                         Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
