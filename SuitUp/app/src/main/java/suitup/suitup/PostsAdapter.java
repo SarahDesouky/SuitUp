@@ -17,26 +17,31 @@ import java.util.List;
 
 import models.*;
 import models.Post;
-import models.User;
 
 public class PostsAdapter extends ArrayAdapter<Post> {
 
     List<Post> posts;
+    List<String> postOwners;
 
-    PostsAdapter(Context context, List<Post> posts) {
+    PostsAdapter(Context context, List<Post> posts, List<String> postOwners) {
         super(context, R.layout.custom_row_posts, posts);
         this.posts = posts;
+        this.postOwners = postOwners;
     }
 
     public View getView(int position, final View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        final View CustomView = inflater.inflate(R.layout.custom_row, parent, false);
-        ImageView postImage = (ImageView)CustomView.findViewById(R.id.imageWall);
-        TextView postText = (TextView)CustomView.findViewById(R.id.textWall);
+        final View CustomView = inflater.inflate(R.layout.custom_row_posts, parent, false);
+        ImageView postImage = (ImageView)CustomView.findViewById(R.id.image);
+        TextView postText = (TextView)CustomView.findViewById(R.id.text);
+        TextView postOwner = (TextView)CustomView.findViewById(R.id.poster);
         Post p = posts.get(position);
         String text = p.getText();
         postText.setText(text);
-        String image = p.getImageURL();
+        int pos = posts.indexOf(p);
+        String owner = postOwners.get(pos);
+        postOwner.setText(owner);
+        String image = p.getImage_url();
         if (image != null){
             try {
                 new DownloadImageTask(postImage).execute(image);
