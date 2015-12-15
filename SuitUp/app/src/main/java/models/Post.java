@@ -5,6 +5,15 @@ public class Post {
     String image_url;
     Integer profile_id;
     Integer owner_id;
+    Integer id;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getText() {
         return text;

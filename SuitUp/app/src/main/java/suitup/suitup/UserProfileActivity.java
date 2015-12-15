@@ -104,9 +104,17 @@ public class UserProfileActivity extends AppCompatActivity{
                                 public void success(models.User user, Response response) {
                                     postOwners.add(user);
                                     if (postOwners.size() == myPosts.size()) {
-                                        ArrayAdapter<models.Post> adapter2 = new PostsAdapter(getApplicationContext(), myPosts, postOwners);
+                                        ArrayAdapter<models.Post> adapter3 = new PostsAdapter(getApplicationContext(), myPosts, postOwners);
                                         postsList = (ListView) findViewById(R.id.list);
-                                        postsList.setAdapter(adapter2);
+                                        postsList.setAdapter(adapter3);
+                                        postsList.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                models.Post post = (models.Post) parent.getItemAtPosition(position);
+                                                editor.putString("post_id", String.valueOf(post.getId())).commit();
+                                                Intent intent = new Intent(getApplicationContext(), PostActivity.class);
+                                                startActivity(intent);
+                                            }
+                                        });
                                     }
                                 }
                                 public void failure(RetrofitError error) {
