@@ -15,6 +15,9 @@ Rails.application.routes.draw do
 
   get '/users/:twitter_id/posts' => 'posts#getMyPosts'
 
+  post '/posts/:post_id'=> 'comments#AddComment'
+  get '/posts/:post_id/comments'=> 'comments#getAllComments'
+
   resources :users do
 
   end

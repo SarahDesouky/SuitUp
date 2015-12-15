@@ -186,10 +186,10 @@ public class FriendProfile extends Activity {
         adapter2.notifyDataSetChanged();
     }
 
-    public void viewFriends(View view){
-        Intent friendList = new Intent(view.getContext(), FriendsListActivity.class);
-        startActivityForResult(friendList, 0);
-    }
+//    public void viewFriends(View view){
+//        Intent friendList = new Intent(view.getContext(), FriendsListActivity.class);
+//        startActivityForResult(friendList, 0);
+//    }
 
     public void uploadImage(View view){
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);

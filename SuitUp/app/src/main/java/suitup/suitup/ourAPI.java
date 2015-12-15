@@ -64,4 +64,11 @@ public interface ourAPI {
     
     @GET("/users/{twitter_id}/friends/{id}")
     void isFriend(@Path("twitter_id") String id, @Path("id") String friendId, Callback<User> callback);
+
+    @FormUrlEncoded
+    @POST("/posts/{post_id}")
+    void AddComment(@Path("post_id") String postid,@Field("comment[owner_id]")String owner_id,@Field("comment[text]") String text,@Field("comment[post_id]") String post_id , Callback<Comment> callback);
+
+    @GET("/posts/{post_id}/comments")
+    void getAllComments(@Path("post_id") String id, Callback<List<models.Comment>> callback);
 }
