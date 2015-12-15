@@ -34,11 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.*;
-<<<<<<< HEAD
 import models.Post;
-=======
 import models.User;
->>>>>>> ffdc53ae071e601f8d0e438415ba736d03183cad
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -139,8 +136,6 @@ public class UserProfileActivity extends AppCompatActivity{
 //                });
 
 
-
->>>>>>> ffdc53ae071e601f8d0e438415ba736d03183cad
             }
 
             public void failure(RetrofitError error) {
