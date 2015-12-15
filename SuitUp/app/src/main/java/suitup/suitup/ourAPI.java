@@ -5,6 +5,7 @@ import java.util.List;
 import models.*;
 import models.User;
 import retrofit.Callback;
+import retrofit.http.DELETE;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -41,4 +42,11 @@ public interface ourAPI {
 
     @GET("/friends/{friend_id}")
     void getFriend(@Path("friend_id") String id, Callback<User> callback);
+
+    @FormUrlEncoded
+    @POST("/users/{twitter_id}/friends/")
+    void addFriend(@Path("twitter_id") String userId, @Field("user[id]") String friendId, Callback<User> callback);
+
+    @DELETE("/users/{twitter_id}/friends/{id}")
+    void removeFriend(@Path("twitter_id") String id, @Path("id") String friendId, Callback<User> callback);
 }

@@ -34,6 +34,9 @@ import org.w3c.dom.Text;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import models.*;
+import models.User;
+import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -61,8 +64,8 @@ public class UserProfileActivity extends AppCompatActivity{
         editor = settings.edit();
 
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
-        ourAPI api = adapter.create(ourAPI.class);
-        String twitterId = settings.getString("twitter_id", "");
+        final ourAPI api = adapter.create(ourAPI.class);
+        final String twitterId = settings.getString("twitter_id", "");
         api.getUser(twitterId, new retrofit.Callback<models.User>() {
 
             public void success(models.User user, Response response) {
@@ -84,6 +87,33 @@ public class UserProfileActivity extends AppCompatActivity{
                 }catch(Exception e) {
                     e.printStackTrace();
                 }
+                //only for testing purposes remove later
+//                api.addFriend(twitterId, "22", new Callback<models.User>() {
+//                    @Override
+//                    public void success(User user, Response response) {
+//                        String name = user.getFname();
+//                    }
+//
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//                        String msg = error.toString();
+//                    }
+//                });
+
+                api.removeFriend(twitterId, "22", new Callback<User>() {
+                    @Override
+                    public void success(User user, Response response) {
+                        String name = user.getFname();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+
+                    }
+                });
+
+
+
             }
 
             public void failure(RetrofitError error) {

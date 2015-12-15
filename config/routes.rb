@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   put '/users/:twitter_id' => 'users#update'
   get 'users/:twitter_id/friends' => "users#getFriends"
   get '/friends/:id' => 'users#findFriend'
+  post '/users/:twitter_id/friends' => 'users#addFriend'
+  delete '/users/:twitter_id/friends/:id' => 'users#removeFriend'
+
 
   resources :users do
     resources :post do
