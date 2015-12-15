@@ -125,7 +125,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="My Friend"
         android:id="@+id/textView4"
         android:layout_gravity="right"/>
 
@@ -133,7 +132,6 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Remove Friend"
         android:id="@+id/button"
         android:onClick="removeOrAddFriend"
         android:layout_gravity="right" />

@@ -35,7 +35,6 @@ import java.util.List;
 
 import models.*;
 import models.Post;
-import models.User;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -43,20 +42,14 @@ import retrofit.client.Response;
 
 public class UserProfileActivity extends AppCompatActivity{
 
-
-    ListView lstview;
-    ArrayList<String> Posts = new ArrayList<String>();
-    ArrayList<String> postText = new ArrayList<String>();
-    ArrayList<String> postImage = new ArrayList<String>();
-    ArrayList<Uri> Images = new ArrayList<Uri>();
+    ListView postsList;
     private final int SELECT_PHOTO = 1;
     boolean imageUploaded = false;
     Uri imageToUpload;
-    ArrayAdapter adapter2;
     public static SharedPreferences.Editor editor;
     public static final String PREFS_NAME = "MyPrefs";
 
-    ListView postsList;
+
 
 
 
@@ -110,31 +103,20 @@ public class UserProfileActivity extends AppCompatActivity{
                     }
                 });
 
-                //only for testing purposes remove later
-//                api.addFriend(twitterId, "22", new Callback<models.User>() {
-//                    @Override
-//                    public void success(User user, Response response) {
-//                        String name = user.getFname();
-//                    }
-//
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//                        String msg = error.toString();
-//                    }
-//                });
 
-//                api.removeFriend(twitterId, "22", new Callback<User>() {
-//                    @Override
-//                    public void success(User user, Response response) {
-//                        String name = user.getFname();
-//                    }
-//
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//
-//                    }
-//                });
+                api.getMyPosts(twitterId, new retrofit.Callback<List<models.Post>>() {
+                    public void success(List<models.Post> posts, Response response) {
+                        ArrayAdapter<models.Post> adapter = new PostsAdapter(getApplicationContext(), posts);
+                        postsList = (ListView) findViewById(R.id.list);
+                        postsList.setAdapter(adapter);
+                    }
 
+                    public void failure(RetrofitError error) {
+//                        Log.d("", error.getMessage());
+//                        throw error;
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
 
             }
 
@@ -142,29 +124,6 @@ public class UserProfileActivity extends AppCompatActivity{
             }
         });
 
-
-//        lstview = (ListView)findViewById(R.id.list);
-//        adapter2 = new CustomPostsAdapterTest(this,Posts,Images);
-//        lstview.setAdapter(adapter2);
-//        lstview.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Log.v("Module Item Trigger", "Module item was triggered");
-//                Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_SHORT).show();
-//                String post = (String) parent.getItemAtPosition(position);
-//                editor.putString("post", post);
-//                editor.commit();
-//                PostActivity pa = new PostActivity();
-//                Intent intent = new Intent(getApplicationContext(), pa.getClass());
-//                startActivity(intent);
-//            }
-//        });
-
-//        Posts.add("Hello!! It's me");
-//        Posts.add("Never ending to do list!");
-//        Posts.add("Excited for the new mocking jay movie");
-//        Images.add(Uri.EMPTY);
-//        Images.add(Uri.EMPTY);
-//        Images.add(Uri.EMPTY);
     }
 
 

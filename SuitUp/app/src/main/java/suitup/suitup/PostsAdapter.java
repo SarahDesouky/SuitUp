@@ -17,7 +17,6 @@ import java.util.List;
 
 import models.*;
 import models.Post;
-import models.User;
 
 public class PostsAdapter extends ArrayAdapter<Post> {
 
@@ -36,7 +35,8 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         Post p = posts.get(position);
         String text = p.getText();
         postText.setText(text);
-        String image = p.getImageURL();
+        String image = p.getImage_url();
+        postText.setText(text);
         if (image != null){
             try {
                 new DownloadImageTask(postImage).execute(image);

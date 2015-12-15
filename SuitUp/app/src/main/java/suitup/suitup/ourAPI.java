@@ -61,5 +61,7 @@ public interface ourAPI {
     @DELETE("/users/{twitter_id}/friends/{id}")
     void removeFriend(@Path("twitter_id") String id, @Path("id") String friendId, Callback<User> callback);
 
-
+    
+    @GET("/users/{twitter_id}/friends/{id}")
+    void isFriend(@Path("twitter_id") String id, @Path("id") String friendId, Callback<User> callback);
 }
