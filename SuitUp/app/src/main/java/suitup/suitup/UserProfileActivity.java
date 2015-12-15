@@ -46,13 +46,20 @@ import retrofit.client.Response;
 
 public class UserProfileActivity extends AppCompatActivity{
 
-    ListView postsList;
-    ArrayList<String> postOwners = new ArrayList<String>();
+
+    ListView lstview;
+    ArrayList<String> Posts = new ArrayList<String>();
+    ArrayList<String> postText = new ArrayList<String>();
+    ArrayList<String> postImage = new ArrayList<String>();
+    ArrayList<Uri> Images = new ArrayList<Uri>();
     private final int SELECT_PHOTO = 1;
     boolean imageUploaded = false;
     Uri imageToUpload;
+    ArrayAdapter adapter2;
     public static SharedPreferences.Editor editor;
     public static final String PREFS_NAME = "MyPrefs";
+
+    ListView postsList;
 
 
 
@@ -90,18 +97,13 @@ public class UserProfileActivity extends AppCompatActivity{
 
                 api.getMyPosts(twitterId, new Callback<List<models.Post>>() {
                     public void success(List<Post> posts, Response response) {
-                        for(int i=0; i<posts.size(); i++){
-                            api.getUser(twitterId, new retrofit.Callback<models.User>(){
-                                public void success(models.User user, Response response) {
-                                    postOwners.add(user.getFname() + " " + user.getLname());
-                                }
-                                public void failure(RetrofitError error) {
-                                }
-                            });
-                        }
-                        ArrayAdapter<models.Post> adapter = new PostsAdapter(getApplicationContext(), posts, postOwners);
+                        ArrayAdapter<models.Post> adapter = new PostsAdapter(getApplicationContext(), posts);
                         postsList = (ListView) findViewById(R.id.list);
                         postsList.setAdapter(adapter);
+//                        for (int i = 0; i < posts.size(); i++) {
+//                            postText.add(posts.get(i).getText());
+//                            postImage.add(posts.get(i).getImageURL());
+//                        }
                     }
 
                     public void failure(RetrofitError error) {
