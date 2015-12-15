@@ -58,7 +58,7 @@ public class Timeline extends AppCompatActivity {
 //                users =(ArrayList) users1;
                 for (int i = 0; i < users.size(); i++) {
                     usersNames.add(users.get(i).getFname() + " " + users.get(i).getLname());
-                    api.getMyPosts(users.get(i).getTwitter_id() + "", new Callback<List<Post>>() {
+                    api.getMyPostsByID(users.get(i).getId() + "", new Callback<List<Post>>() {
                         @Override
                         public void success(List<Post> postsList, Response response) {
                             Log.d("post","success");
