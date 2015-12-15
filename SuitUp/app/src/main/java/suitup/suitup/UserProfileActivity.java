@@ -100,17 +100,17 @@ public class UserProfileActivity extends AppCompatActivity{
 //                    }
 //                });
 
-                api.removeFriend(twitterId, "22", new Callback<User>() {
-                    @Override
-                    public void success(User user, Response response) {
-                        String name = user.getFname();
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-
-                    }
-                });
+//                api.removeFriend(twitterId, "22", new Callback<User>() {
+//                    @Override
+//                    public void success(User user, Response response) {
+//                        String name = user.getFname();
+//                    }
+//
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//
+//                    }
+//                });
 
 
 
