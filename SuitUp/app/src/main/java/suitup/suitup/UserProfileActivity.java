@@ -88,31 +88,6 @@ public class UserProfileActivity extends AppCompatActivity{
                     e.printStackTrace();
                 }
                 //only for testing purposes remove later
-//                api.addFriend(twitterId, "22", new Callback<models.User>() {
-//                    @Override
-//                    public void success(User user, Response response) {
-//                        String name = user.getFname();
-//                    }
-//
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//                        String msg = error.toString();
-//                    }
-//                });
-
-//                api.removeFriend(twitterId, "22", new Callback<User>() {
-//                    @Override
-//                    public void success(User user, Response response) {
-//                        String name = user.getFname();
-//                    }
-//
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//
-//                    }
-//                });
-
-
 
             }
 
