@@ -26,6 +26,7 @@ import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -46,6 +47,7 @@ public class FriendProfile extends Activity {
 
     public static SharedPreferences.Editor editor;
     public static final String PREFS_NAME = "MyPrefs";
+    String friendId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,7 @@ public class FriendProfile extends Activity {
 
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
         ourAPI api = adapter.create(ourAPI.class);
-        String friendId = settings.getString("friend_id", "");
+        friendId = settings.getString("friend_id", "");
         api.getFriend(friendId, new retrofit.Callback<models.User>() {
 
             public void success(models.User user, Response response) {
@@ -220,13 +222,45 @@ public class FriendProfile extends Activity {
     }
 
     public void removeOrAddFriend(View view){
+
+        final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        editor = settings.edit();
+        String twitterId = settings.getString("twitter_id", "");
+
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
+        ourAPI api = adapter.create(ourAPI.class);
+
         if(b.getText()=="Remove Friend") {
+             api.removeFriend(twitterId, friendId, new Callback<models.User>() {
+                 @Override
+                 public void success(models.User user, Response response) {
+                     String name = user.getFname();
+                        myFriend.setText("");
             b.setText("Add Friend");
-            myFriend.setText("");
+                 }
+
+                 @Override
+                 public void failure(RetrofitError error) {
+                    String msg = error.toString();
+                 }
+             });
+
         }
         else {
             b.setText("Remove Friend");
-            myFriend.setText("My Friend");
+            api.addFriend(twitterId, friendId, new Callback<models.User>() {
+                    @Override
+                    public void success(models.User user, Response response) {
+                        String name = user.getFname();
+                        myFriend.setText("My Friend");
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        String msg = error.toString();
+                    }
+                });
+
         }
     }
 }

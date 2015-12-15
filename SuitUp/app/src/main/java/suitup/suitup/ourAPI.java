@@ -6,6 +6,7 @@ import models.*;
 import models.Post;
 import models.User;
 import retrofit.Callback;
+import retrofit.client.Response;
 import retrofit.http.DELETE;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
