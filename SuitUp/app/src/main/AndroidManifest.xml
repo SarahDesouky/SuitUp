@@ -77,6 +77,10 @@
             android:name=".UserActivityTest"
             android:label="@string/title_activity_user_activity_test" >
         </activity>
+        <activity
+            android:name=".UserListAdapter"
+            android:label="@string/title_activity_user_list_adapter" >
+        </activity>
     </application>
 
 </manifest>
