@@ -22,9 +22,6 @@ import java.util.List;
 import models.*;
 import models.User;
 
-/**
- * Created by sarah on 12/14/2015.
- */
 public class FriendsAdapter extends ArrayAdapter<User> {
 
     List<User> friends;

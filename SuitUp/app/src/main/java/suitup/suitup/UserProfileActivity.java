@@ -43,12 +43,13 @@ import retrofit.client.Response;
 public class UserProfileActivity extends AppCompatActivity{
 
     ListView postsList;
-    ArrayList<String> postOwners = new ArrayList<String>();
     private final int SELECT_PHOTO = 1;
     boolean imageUploaded = false;
     Uri imageToUpload;
     public static SharedPreferences.Editor editor;
     public static final String PREFS_NAME = "MyPrefs";
+
+
 
 
 
@@ -83,6 +84,25 @@ public class UserProfileActivity extends AppCompatActivity{
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+                api.getMyPosts(twitterId, new Callback<List<models.Post>>() {
+                    public void success(List<Post> posts, Response response) {
+                        ArrayAdapter<models.Post> adapter = new PostsAdapter(getApplicationContext(), posts);
+                        postsList = (ListView) findViewById(R.id.list);
+                        postsList.setAdapter(adapter);
+//                        for (int i = 0; i < posts.size(); i++) {
+//                            postText.add(posts.get(i).getText());
+//                            postImage.add(posts.get(i).getImageURL());
+//                        }
+                    }
+
+                    public void failure(RetrofitError error) {
+//                        Log.d("", error.getMessage());
+//                        throw error;
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
 
                 api.getMyPosts(twitterId, new retrofit.Callback<List<models.Post>>() {
                     public void success(List<models.Post> posts, Response response) {

@@ -21,12 +21,10 @@ import models.Post;
 public class PostsAdapter extends ArrayAdapter<Post> {
 
     List<Post> posts;
-    List<String> postOwners;
 
     PostsAdapter(Context context, List<Post> posts) {
         super(context, R.layout.custom_row_posts, posts);
         this.posts = posts;
-        this.postOwners = postOwners;
     }
 
     public View getView(int position, final View convertView, ViewGroup parent) {
@@ -34,13 +32,11 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         final View CustomView = inflater.inflate(R.layout.custom_row, parent, false);
         ImageView postImage = (ImageView)CustomView.findViewById(R.id.imageWall);
         TextView postText = (TextView)CustomView.findViewById(R.id.textWall);
-//        TextView postOwner = (TextView)CustomView.findViewById(R.id.poster);
         Post p = posts.get(position);
         String text = p.getText();
         postText.setText(text);
-//        String owner = postOwners.get(posts.indexOf(p));
-//        postOwner.setText("2araaaaaf");
         String image = p.getImage_url();
+        postText.setText(text);
         if (image != null){
             try {
                 new DownloadImageTask(postImage).execute(image);
