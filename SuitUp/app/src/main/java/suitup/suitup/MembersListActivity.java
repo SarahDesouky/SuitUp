@@ -44,10 +44,10 @@ public class MembersListActivity extends AppCompatActivity{
             public void success(List<User> users, Response response) {
                 for(int i =0;i<users.size();i++)
                 {
-                    if(users.get(i).getId() == settings.getInt("twitter_id",-1))
+                    if(users.get(i).getTwitter_id().equals(settings.getString("twitter_id","-1"))) {
                         users.remove(i);
-                    break;
-
+                        break;
+                    }
                 }
                 adapter1 = new FriendsAdapter(MembersListActivity.this, users);
                 usersList = (ListView) findViewById(R.id.usersList);

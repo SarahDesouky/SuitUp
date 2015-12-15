@@ -26,6 +26,7 @@ import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import models.*;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -57,8 +58,12 @@ public class FriendProfile extends Activity {
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         editor = settings.edit();
 
+        myFriend = (TextView) findViewById(R.id.textView4);
+        myFriend.setTextColor(Color.parseColor("#40E0D0"));
+        b = (Button) findViewById(R.id.button);
+
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
-        ourAPI api = adapter.create(ourAPI.class);
+        final ourAPI api = adapter.create(ourAPI.class);
         friendId = settings.getString("friend_id", "");
         api.getFriend(friendId, new retrofit.Callback<models.User>() {
 
@@ -81,15 +86,36 @@ public class FriendProfile extends Activity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+                String twitterId = settings.getString("twitter_id", "");
+                api.isFriend(twitterId, friendId, new Callback<models.User>() {
+                    @Override
+                    public void success(models.User user, Response response) {
+                        if(user!=null) {
+                            myFriend.setText("Friends");
+                            b.setText("Remove Friend");
+                        }
+                        else {
+                            myFriend.setText("");
+                            b.setText("Add Friend");
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+
+                    }
+                });
+
+
+
             }
 
             public void failure(RetrofitError error) {
             }
         });
 
-        myFriend = (TextView) findViewById(R.id.textView4);
-        myFriend.setTextColor(Color.parseColor("#40E0D0"));
-        b = (Button) findViewById(R.id.button);
+
         lstview = (ListView)findViewById(R.id.list);
         adapter2 = new CustomPostsAdapterTest(this,Posts,Images);
         lstview.setAdapter(adapter2);
@@ -231,35 +257,35 @@ public class FriendProfile extends Activity {
         ourAPI api = adapter.create(ourAPI.class);
 
         if(b.getText()=="Remove Friend") {
-             api.removeFriend(twitterId, friendId, new Callback<models.User>() {
-                 @Override
-                 public void success(models.User user, Response response) {
-                     String name = user.getFname();
-                        myFriend.setText("");
-            b.setText("Add Friend");
-                 }
+            api.removeFriend(twitterId, friendId, new Callback<models.User>() {
+                @Override
+                public void success(models.User user, Response response) {
+                    String name = user.getFname();
+                    b.setText("Add Friend");
+                    myFriend.setText("");
+                }
 
-                 @Override
-                 public void failure(RetrofitError error) {
+                @Override
+                public void failure(RetrofitError error) {
                     String msg = error.toString();
-                 }
-             });
+                }
+            });
 
         }
         else {
-            b.setText("Remove Friend");
             api.addFriend(twitterId, friendId, new Callback<models.User>() {
-                    @Override
-                    public void success(models.User user, Response response) {
-                        String name = user.getFname();
-                        myFriend.setText("My Friend");
-                    }
+                @Override
+                public void success(models.User user, Response response) {
+                    b.setText("Remove Friend");
+                    myFriend.setText("Friends");
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        String msg = error.toString();
-                    }
-                });
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    String msg = error.toString();
+                }
+            });
 
         }
     }

@@ -7,4 +7,10 @@ def getMyPosts
 	render json: @posts
 end
 
+def getMyPostsByID
+	@user = User.where(:id =>params[:id]).take
+	@posts = @user.posts_on_own_wall.all
+	render json: @posts
+end
+
 end

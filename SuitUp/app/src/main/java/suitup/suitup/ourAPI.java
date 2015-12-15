@@ -39,6 +39,12 @@ public interface ourAPI {
                     @Field("user[country]") String country,
                     Callback<User> callback );
 
+    @GET("/users/{twitter_id}/posts")
+    void getMyPosts(@Path("twitter_id") String id, Callback<List<Post>> callback);
+
+    @GET("/users/{id}/posts")
+    void getMyPostsByID(@Path("id") String id, Callback<List<Post>> callback);
+
     @GET("/users/")
     void getAllUsers(Callback<List<User>> callback);
 
@@ -55,7 +61,7 @@ public interface ourAPI {
     @DELETE("/users/{twitter_id}/friends/{id}")
     void removeFriend(@Path("twitter_id") String id, @Path("id") String friendId, Callback<User> callback);
 
-    @GET("/users/{twitter_id}/posts")
-    void getMyPosts(@Path("twitter_id") String id, Callback<List<Post>> callback);
-
+    
+    @GET("/users/{twitter_id}/friends/{id}")
+    void isFriend(@Path("twitter_id") String id, @Path("id") String friendId, Callback<User> callback);
 }
