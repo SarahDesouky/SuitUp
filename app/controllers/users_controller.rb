@@ -59,12 +59,12 @@ def removeFriend
 @friendship = Friendship.where(:user_id=> @user.id, :friend_id=> params[:id])
 Friendship.destroy(@friendship)
 render json: @user
-# if @friendship.delete
-# render json: @user
-# else 
-# 	render json: @users.errors, status: :unprocessable_entity
-# end
+end
 
+def isFriend 
+@user = User.where(:twitter_id => params[:twitter_id]).take
+@friendship = Friendship.where(:user_id=> @user.id, :friend_id => params[:id]).take
+render json: @friendship
 end
 
 # def edit
