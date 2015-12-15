@@ -13,7 +13,7 @@ import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+//import android.support.v7.util.SortedList.Callback;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,11 +29,13 @@ import android.content.Intent;
 
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
-import org.w3c.dom.Text;
-
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
+import models.*;
+import models.Post;
+import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -43,6 +45,8 @@ public class UserProfileActivity extends AppCompatActivity{
 
     ListView lstview;
     ArrayList<String> Posts = new ArrayList<String>();
+    ArrayList<String> postText = new ArrayList<String>();
+    ArrayList<String> postImage = new ArrayList<String>();
     ArrayList<Uri> Images = new ArrayList<Uri>();
     private final int SELECT_PHOTO = 1;
     boolean imageUploaded = false;
@@ -61,8 +65,8 @@ public class UserProfileActivity extends AppCompatActivity{
         editor = settings.edit();
 
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
-        ourAPI api = adapter.create(ourAPI.class);
-        String twitterId = settings.getString("twitter_id", "");
+        final ourAPI api = adapter.create(ourAPI.class);
+        final String twitterId = settings.getString("twitter_id", "");
         api.getUser(twitterId, new retrofit.Callback<models.User>() {
 
             public void success(models.User user, Response response) {
@@ -73,17 +77,34 @@ public class UserProfileActivity extends AppCompatActivity{
                 String avatar = user.getAvatar_url();
                 String email = user.getEmail();
                 String dateofbirth = user.getDate_of_birth();
-                ((TextView)findViewById(R.id.username)).setText(fname + " " + lname);
-                ((TextView)findViewById(R.id.country)).setText(country);
-                ((TextView)findViewById(R.id.dateofbirth)).setText("Birthday: " +  dateofbirth);
-                ((TextView)findViewById(R.id.email)).setText(email);
-                ((TextView)findViewById(R.id.gender)).setText(gender);
+                ((TextView) findViewById(R.id.username)).setText(fname + " " + lname);
+                ((TextView) findViewById(R.id.country)).setText(country);
+                ((TextView) findViewById(R.id.dateofbirth)).setText("Birthday: " + dateofbirth);
+                ((TextView) findViewById(R.id.email)).setText(email);
+                ((TextView) findViewById(R.id.gender)).setText(gender);
                 try {
                     new DownloadImageTask((ImageView) findViewById(R.id.avatar))
                             .execute(avatar);
-                }catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+                api.getMyPosts(twitterId, new Callback<List<Post>>() {
+                    public void success(List<Post> posts, Response response) {
+                        for (int i = 0; i < posts.size(); i++) {
+                            postText.add(posts.get(i).getText());
+                            postImage.add(posts.get(i).getImageURL());
+                        }
+                        //lstview = (ListView) findViewById(R.id.list);
+                        //adapter2 = new CustomPostsAdapterTest(this, postText, postImage);
+                        //lstview.setAdapter(adapter2);
+                    }
+
+                    public void failure(RetrofitError error) {
+                        Log.d("", error.getMessage());
+                        throw error;
+                    }
+                });
             }
 
             public void failure(RetrofitError error) {

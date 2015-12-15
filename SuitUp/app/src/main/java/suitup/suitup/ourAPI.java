@@ -4,6 +4,7 @@ import java.util.List;
 
 
 import models.*;
+import models.Post;
 import models.User;
 import retrofit.Callback;
 import retrofit.http.Field;
@@ -36,4 +37,7 @@ public interface ourAPI {
                     @Field("user[email]") String email,
                     @Field("user[country]") String country,
                     Callback<User> callback );
+
+    @GET("/users/{twitter_id}/posts")
+    void getMyPosts(@Path("twitter_id") String id, Callback<List<Post>> callback);
 }
