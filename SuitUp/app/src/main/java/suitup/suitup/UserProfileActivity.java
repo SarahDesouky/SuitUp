@@ -55,6 +55,8 @@ public class UserProfileActivity extends AppCompatActivity{
     public static SharedPreferences.Editor editor;
     public static final String PREFS_NAME = "MyPrefs";
 
+    ListView postsList;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,20 +91,21 @@ public class UserProfileActivity extends AppCompatActivity{
                     e.printStackTrace();
                 }
 
-                api.getMyPosts(twitterId, new Callback<List<Post>>() {
+                api.getMyPosts(twitterId, new Callback<List<models.Post>>() {
                     public void success(List<Post> posts, Response response) {
-                        for (int i = 0; i < posts.size(); i++) {
-                            postText.add(posts.get(i).getText());
-                            postImage.add(posts.get(i).getImageURL());
-                        }
-                        //lstview = (ListView) findViewById(R.id.list);
-                        //adapter2 = new CustomPostsAdapterTest(this, postText, postImage);
-                        //lstview.setAdapter(adapter2);
+                        ArrayAdapter<models.Post> adapter = new PostsAdapter(getApplicationContext(), posts);
+                        postsList = (ListView) findViewById(R.id.list);
+                        postsList.setAdapter(adapter);
+//                        for (int i = 0; i < posts.size(); i++) {
+//                            postText.add(posts.get(i).getText());
+//                            postImage.add(posts.get(i).getImageURL());
+//                        }
                     }
 
                     public void failure(RetrofitError error) {
-                        Log.d("", error.getMessage());
-                        throw error;
+//                        Log.d("", error.getMessage());
+//                        throw error;
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -112,21 +115,21 @@ public class UserProfileActivity extends AppCompatActivity{
         });
 
 
-        lstview = (ListView)findViewById(R.id.list);
-        adapter2 = new CustomPostsAdapterTest(this,Posts,Images);
-        lstview.setAdapter(adapter2);
-        lstview.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.v("Module Item Trigger", "Module item was triggered");
-                Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_SHORT).show();
-                String post = (String) parent.getItemAtPosition(position);
-                editor.putString("post", post);
-                editor.commit();
-                PostActivity pa = new PostActivity();
-                Intent intent = new Intent(getApplicationContext(), pa.getClass());
-                startActivity(intent);
-            }
-        });
+//        lstview = (ListView)findViewById(R.id.list);
+//        adapter2 = new CustomPostsAdapterTest(this,Posts,Images);
+//        lstview.setAdapter(adapter2);
+//        lstview.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Log.v("Module Item Trigger", "Module item was triggered");
+//                Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_SHORT).show();
+//                String post = (String) parent.getItemAtPosition(position);
+//                editor.putString("post", post);
+//                editor.commit();
+//                PostActivity pa = new PostActivity();
+//                Intent intent = new Intent(getApplicationContext(), pa.getClass());
+//                startActivity(intent);
+//            }
+//        });
 
 //        Posts.add("Hello!! It's me");
 //        Posts.add("Never ending to do list!");
@@ -162,32 +165,32 @@ public class UserProfileActivity extends AppCompatActivity{
         }
     }
 
-    public void Tweet(View view) {
-        String post = ((EditText)findViewById(R.id.tweet)).getText().toString();
-        TweetComposer.Builder builder;
-        if(imageUploaded) {
-            builder = new TweetComposer.Builder(this)
-                    .text(post) .image(imageToUpload);
-        }
-        else {
-            builder = new TweetComposer.Builder(this)
-                    .text(post);
-        }
-        builder.show();
-        adapter2.notifyDataSetChanged();
-    }
-    public void Post(View view) {
-        String post = ((EditText)findViewById(R.id.tweet)).getText().toString();
-        if(imageUploaded) {
-            Images.add(imageToUpload);
-        }
-        else {
-            Images.add(Uri.EMPTY);
-        }
-        Posts.add(post);
-        adapter2.notifyDataSetChanged();
-
-    }
+//    public void Tweet(View view) {
+//        String post = ((EditText)findViewById(R.id.tweet)).getText().toString();
+//        TweetComposer.Builder builder;
+//        if(imageUploaded) {
+//            builder = new TweetComposer.Builder(this)
+//                    .text(post) .image(imageToUpload);
+//        }
+//        else {
+//            builder = new TweetComposer.Builder(this)
+//                    .text(post);
+//        }
+//        builder.show();
+//        adapter2.notifyDataSetChanged();
+//    }
+//    public void Post(View view) {
+//        String post = ((EditText)findViewById(R.id.tweet)).getText().toString();
+//        if(imageUploaded) {
+//            Images.add(imageToUpload);
+//        }
+//        else {
+//            Images.add(Uri.EMPTY);
+//        }
+//        Posts.add(post);
+//        adapter2.notifyDataSetChanged();
+//
+//    }
 
     public void viewFriends(View view){
         Intent friendList = new Intent(view.getContext(), FriendsListActivity.class);

@@ -2,7 +2,7 @@ package models;
 
 public class Post {
     String text;
-    String imageURL;
+    String image_url;
     User owner;
     User profile;
 
@@ -15,11 +15,11 @@ public class Post {
     }
 
     public String getImageURL() {
-        return imageURL;
+        return image_url;
     }
 
     public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+        this.image_url = imageURL;
     }
 
     public User getOwner() {
