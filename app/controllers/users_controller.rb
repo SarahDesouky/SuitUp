@@ -1,10 +1,11 @@
 class UsersController < ApplicationController
 
 skip_before_action :verify_authenticity_token
-# def index
-# 	@users = User.all
-# 	render json: @users
-# end
+
+def index
+	@users = User.all
+	render json: @users
+end
 
 def find
 	 @user=User.where( :twitter_id => params[:twitter_id]).take

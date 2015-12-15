@@ -36,4 +36,7 @@ public interface ourAPI {
                     @Field("user[email]") String email,
                     @Field("user[country]") String country,
                     Callback<User> callback );
+
+    @GET("/users/")
+    void getAllUsers(Callback<List<User>> callback);
 }
