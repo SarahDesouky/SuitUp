@@ -30,6 +30,11 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         this.postOwners = postOwners;
     }
 
+    PostsAdapter(Context context, List<Post> posts) {
+        super(context, R.layout.custom_row_posts, posts);
+        this.posts = posts;
+    }
+
     public View getView(int position, final View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         final View CustomView = inflater.inflate(R.layout.custom_row, parent, false);
