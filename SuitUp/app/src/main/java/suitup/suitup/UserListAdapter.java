@@ -1,45 +1,38 @@
 package suitup.suitup;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.net.Uri;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import models.*;
 
-public class CustomPostsAdapterTest extends ArrayAdapter {
-    private ArrayList<String> posts;
-    private ArrayList<Uri> images;
+public class UserListAdapter extends ArrayAdapter {
+    private static ArrayList<String> names;
+    private static ArrayList<Uri> images;
     private String [] comments = new String [100];
     private static int numberOfComments = 0;
     private ourAPI ourAPI;
+//    private List<User>users;
 
-    CustomPostsAdapterTest(Context context, ArrayList<String> p, ArrayList<Uri> i) {
-        super(context,R.layout.custom_row_posts, p );
-        posts = p;
-        images = i;
-        for(int j=0;j <100;j++) {
-            comments[j] ="";
+    UserListAdapter(Context context, ArrayList<models.User> users) {
+        super(context, R.layout.custom_row_posts, users);
+        names = new ArrayList<>();
+        images = new ArrayList<>();
+        Log.d(users.size()+"",users.size()+"");
+        for (int i = 0; i < users.size(); i++) {
+
+            names.add(users.get(i).getFname() + " "+ users.get(i).getLname());
+            images.add(Uri.parse(users.get(i).getAvatar_url()));
         }
     }
 
@@ -48,13 +41,15 @@ public class CustomPostsAdapterTest extends ArrayAdapter {
     public View getView(int position, final View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         final View CustomView = inflater.inflate(R.layout.custom_row_posts, parent, false);
-        TextView poster = (TextView)CustomView.findViewById(R.id.poster);
-        poster.setText(StaticData.CurrentUser.fname + " " + StaticData.CurrentUser.lname + "\n");
+
+//        TextView poster = (TextView)CustomView.findViewById(R.id.poster);
+//        poster.setText(StaticData.CurrentUser.fname + " " + StaticData.CurrentUser.lname + "\n");
 
         String post = "";
         Uri image = null;
+
         try {
-            post = posts.get(position);
+            post = names.get(position);
             TextView text = (TextView)CustomView.findViewById(R.id.text);
             text.setText(post);
         }catch(Exception e){

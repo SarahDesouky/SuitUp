@@ -6,6 +6,7 @@ import models.*;
 import models.Post;
 import models.User;
 import retrofit.Callback;
+import retrofit.http.DELETE;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -37,14 +38,23 @@ public interface ourAPI {
                     @Field("user[country]") String country,
                     Callback<User> callback );
 
-
     @GET("/users/{twitter_id}/posts")
     void getMyPosts(@Path("twitter_id") String id, Callback<List<Post>> callback);
+
+    @GET("/users/")
+    void getAllUsers(Callback<List<User>> callback);
 
     @GET("/users/{twitter_id}/friends")
     void getFriends(@Path("twitter_id") String id, Callback<List<User>> callback);
 
     @GET("/friends/{friend_id}")
     void getFriend(@Path("friend_id") String id, Callback<User> callback);
+
+    @FormUrlEncoded
+    @POST("/users/{twitter_id}/friends/")
+    void addFriend(@Path("twitter_id") String userId, @Field("user[id]") String friendId, Callback<User> callback);
+
+    @DELETE("/users/{twitter_id}/friends/{id}")
+    void removeFriend(@Path("twitter_id") String id, @Path("id") String friendId, Callback<User> callback);
 
 }

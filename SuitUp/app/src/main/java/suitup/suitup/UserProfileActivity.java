@@ -34,7 +34,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import models.*;
+<<<<<<< HEAD
 import models.Post;
+=======
+import models.User;
+>>>>>>> ffdc53ae071e601f8d0e438415ba736d03183cad
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -106,6 +110,35 @@ public class UserProfileActivity extends AppCompatActivity{
                         Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
+
+                //only for testing purposes remove later
+//                api.addFriend(twitterId, "22", new Callback<models.User>() {
+//                    @Override
+//                    public void success(User user, Response response) {
+//                        String name = user.getFname();
+//                    }
+//
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//                        String msg = error.toString();
+//                    }
+//                });
+
+//                api.removeFriend(twitterId, "22", new Callback<User>() {
+//                    @Override
+//                    public void success(User user, Response response) {
+//                        String name = user.getFname();
+//                    }
+//
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//
+//                    }
+//                });
+
+
+
+>>>>>>> ffdc53ae071e601f8d0e438415ba736d03183cad
             }
 
             public void failure(RetrofitError error) {
