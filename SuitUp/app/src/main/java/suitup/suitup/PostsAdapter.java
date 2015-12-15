@@ -17,10 +17,18 @@ import java.util.List;
 
 import models.*;
 import models.Post;
+import models.User;
 
 public class PostsAdapter extends ArrayAdapter<Post> {
 
     List<Post> posts;
+    List<User> postOwners;
+
+    PostsAdapter(Context context, List<Post> posts, List<User> postOwners) {
+        super(context, R.layout.custom_row_posts, posts);
+        this.posts = posts;
+        this.postOwners = postOwners;
+    }
 
     PostsAdapter(Context context, List<Post> posts) {
         super(context, R.layout.custom_row_posts, posts);
@@ -33,6 +41,8 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         ImageView postImage = (ImageView)CustomView.findViewById(R.id.imageWall);
         TextView postText = (TextView)CustomView.findViewById(R.id.textWall);
         Post p = posts.get(position);
+        int pos = posts.indexOf(p);
+        String ownerName = postOwners.get(pos).getFname();
         String text = p.getText();
         postText.setText(text);
         String image = p.getImage_url();
