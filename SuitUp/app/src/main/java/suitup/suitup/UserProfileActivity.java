@@ -13,7 +13,7 @@ import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+//import android.support.v7.util.SortedList.Callback;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,13 +29,12 @@ import android.content.Intent;
 
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
-import org.w3c.dom.Text;
-
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import models.*;
-import models.User;
+import models.Post;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -43,14 +42,11 @@ import retrofit.client.Response;
 
 public class UserProfileActivity extends AppCompatActivity{
 
-
-    ListView lstview;
-    ArrayList<String> Posts = new ArrayList<String>();
-    ArrayList<Uri> Images = new ArrayList<Uri>();
+    ListView postsList;
+    ArrayList<String> postOwners = new ArrayList<String>();
     private final int SELECT_PHOTO = 1;
     boolean imageUploaded = false;
     Uri imageToUpload;
-    ArrayAdapter adapter2;
     public static SharedPreferences.Editor editor;
     public static final String PREFS_NAME = "MyPrefs";
 
@@ -76,18 +72,31 @@ public class UserProfileActivity extends AppCompatActivity{
                 String avatar = user.getAvatar_url();
                 String email = user.getEmail();
                 String dateofbirth = user.getDate_of_birth();
-                ((TextView)findViewById(R.id.username)).setText(fname + " " + lname);
-                ((TextView)findViewById(R.id.country)).setText(country);
-                ((TextView)findViewById(R.id.dateofbirth)).setText("Birthday: " +  dateofbirth);
-                ((TextView)findViewById(R.id.email)).setText(email);
-                ((TextView)findViewById(R.id.gender)).setText(gender);
+                ((TextView) findViewById(R.id.username)).setText(fname + " " + lname);
+                ((TextView) findViewById(R.id.country)).setText(country);
+                ((TextView) findViewById(R.id.dateofbirth)).setText("Birthday: " + dateofbirth);
+                ((TextView) findViewById(R.id.email)).setText(email);
+                ((TextView) findViewById(R.id.gender)).setText(gender);
                 try {
                     new DownloadImageTask((ImageView) findViewById(R.id.avatar))
                             .execute(avatar);
-                }catch(Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                //only for testing purposes remove later
+
+                api.getMyPosts(twitterId, new retrofit.Callback<List<models.Post>>() {
+                    public void success(List<models.Post> posts, Response response) {
+                        ArrayAdapter<models.Post> adapter = new PostsAdapter(getApplicationContext(), posts);
+                        postsList = (ListView) findViewById(R.id.list);
+                        postsList.setAdapter(adapter);
+                    }
+
+                    public void failure(RetrofitError error) {
+//                        Log.d("", error.getMessage());
+//                        throw error;
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
 
             }
 
@@ -95,29 +104,6 @@ public class UserProfileActivity extends AppCompatActivity{
             }
         });
 
-
-        lstview = (ListView)findViewById(R.id.list);
-        adapter2 = new CustomPostsAdapterTest(this,Posts,Images);
-        lstview.setAdapter(adapter2);
-        lstview.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.v("Module Item Trigger", "Module item was triggered");
-                Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_SHORT).show();
-                String post = (String) parent.getItemAtPosition(position);
-                editor.putString("post", post);
-                editor.commit();
-                PostActivity pa = new PostActivity();
-                Intent intent = new Intent(getApplicationContext(), pa.getClass());
-                startActivity(intent);
-            }
-        });
-
-//        Posts.add("Hello!! It's me");
-//        Posts.add("Never ending to do list!");
-//        Posts.add("Excited for the new mocking jay movie");
-//        Images.add(Uri.EMPTY);
-//        Images.add(Uri.EMPTY);
-//        Images.add(Uri.EMPTY);
     }
 
 
@@ -146,32 +132,32 @@ public class UserProfileActivity extends AppCompatActivity{
         }
     }
 
-    public void Tweet(View view) {
-        String post = ((EditText)findViewById(R.id.tweet)).getText().toString();
-        TweetComposer.Builder builder;
-        if(imageUploaded) {
-            builder = new TweetComposer.Builder(this)
-                    .text(post) .image(imageToUpload);
-        }
-        else {
-            builder = new TweetComposer.Builder(this)
-                    .text(post);
-        }
-        builder.show();
-        adapter2.notifyDataSetChanged();
-    }
-    public void Post(View view) {
-        String post = ((EditText)findViewById(R.id.tweet)).getText().toString();
-        if(imageUploaded) {
-            Images.add(imageToUpload);
-        }
-        else {
-            Images.add(Uri.EMPTY);
-        }
-        Posts.add(post);
-        adapter2.notifyDataSetChanged();
-
-    }
+//    public void Tweet(View view) {
+//        String post = ((EditText)findViewById(R.id.tweet)).getText().toString();
+//        TweetComposer.Builder builder;
+//        if(imageUploaded) {
+//            builder = new TweetComposer.Builder(this)
+//                    .text(post) .image(imageToUpload);
+//        }
+//        else {
+//            builder = new TweetComposer.Builder(this)
+//                    .text(post);
+//        }
+//        builder.show();
+//        adapter2.notifyDataSetChanged();
+//    }
+//    public void Post(View view) {
+//        String post = ((EditText)findViewById(R.id.tweet)).getText().toString();
+//        if(imageUploaded) {
+//            Images.add(imageToUpload);
+//        }
+//        else {
+//            Images.add(Uri.EMPTY);
+//        }
+//        Posts.add(post);
+//        adapter2.notifyDataSetChanged();
+//
+//    }
 
     public void viewFriends(View view){
         Intent friendList = new Intent(view.getContext(), FriendsListActivity.class);

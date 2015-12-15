@@ -8,11 +8,13 @@ Rails.application.routes.draw do
   post '/users/:twitter_id/friends' => 'users#addFriend'
   delete '/users/:twitter_id/friends/:id' => 'users#removeFriend'
 
+  get '/users/:twitter_id/posts' => 'posts#getMyPosts'
+
 
   resources :users do
-    resources :post do
-      resources :comment
-    end
+    # resources :post do
+    #   resources :comment
+    # end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
