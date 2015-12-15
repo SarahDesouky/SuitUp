@@ -14,8 +14,8 @@
     <string name="title_activity_member_profile">Member Profile</string>
     <string name="title_activity_members_list">All Users</string>
     <string name="title_activity_user_activity_test">UserActivityTest</string>
-    <string name="API_BASE_URL">http://192.168.8.101:3000/</string>
-    <string name="title_activity_user_list_adapter">UserListAdapter</string>
+    <string name="API_BASE_URL">http://192.168.8.104:3000/</string>
+
 
 
 </resources>

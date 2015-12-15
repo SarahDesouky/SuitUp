@@ -3,6 +3,7 @@ package suitup.suitup;
 import java.util.List;
 
 import models.*;
+import models.Post;
 import models.User;
 import retrofit.Callback;
 import retrofit.client.Response;
@@ -54,7 +55,12 @@ public interface ourAPI {
     @DELETE("/users/{twitter_id}/friends/{id}")
     void removeFriend(@Path("twitter_id") String id, @Path("id") String friendId, Callback<User> callback);
 
+
     @GET("/users/{twitter_id}/friends/{id}")
     void isFriend(@Path("twitter_id") String id, @Path("id") String friendId, Callback<User> callback);
+
+    @GET("/users/{twitter_id}/posts")
+    void getMyPosts(@Path("twitter_id") String id, Callback<List<Post>> callback);
+
 
 }

@@ -13,41 +13,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@android:id/list"
-        android:layout_below="@+id/myProfile"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="42dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Newsfeed"
-        android:id="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:textStyle="bold" />
+        android:layout_above="@+id/myProfile" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="My Profile"
         android:id="@+id/myProfile"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/textView"
-        android:layout_alignEnd="@+id/textView"
-        android:onClick="myProfileClicked" />
+        android:onClick="myProfileClicked"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@android:id/list"
+        android:layout_alignEnd="@android:id/list" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="All Members"
         android:id="@+id/button2"
-        android:layout_below="@+id/myProfile"
-        android:layout_alignLeft="@+id/myProfile"
-        android:layout_alignStart="@+id/myProfile"
-        android:onClick="AllMembers"/>
+        android:onClick="AllMembers"
+        android:layout_alignTop="@+id/myProfile"
+        android:layout_toLeftOf="@+id/myProfile"
+        android:layout_toStartOf="@+id/myProfile" />
 </RelativeLayout>

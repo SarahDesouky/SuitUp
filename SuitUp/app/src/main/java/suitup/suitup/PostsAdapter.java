@@ -3,9 +3,7 @@ package suitup.suitup;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,47 +11,39 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import models.*;
-import models.User;
+import models.Post;
 
-public class FriendsAdapter extends ArrayAdapter<User> {
+public class PostsAdapter extends ArrayAdapter<Post> {
 
-    List<User> friends;
+    List<Post> posts;
 
-
-    FriendsAdapter(Context context, List<User> friends) {
-        super(context, R.layout.custom_row_posts, friends);
-        this.friends = friends;
+    PostsAdapter(Context context, List<Post> posts) {
+        super(context, R.layout.custom_row_posts, posts);
+        this.posts = posts;
     }
 
-    @Override
     public View getView(int position, final View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         final View CustomView = inflater.inflate(R.layout.custom_row, parent, false);
-        ImageView avatarView = (ImageView)CustomView.findViewById(R.id.imageWall);
-        TextView nameView = (TextView)CustomView.findViewById(R.id.textWall);
-
-        User friend = friends.get(position);
-        String name = friend.getFname() + " " + friend.getLname();
-        nameView.setText(name);
-        String avatar = friend.getAvatar_url();
-//        Toast.makeText(this.getContext()
-//                , "Reached here", Toast.LENGTH_LONG).show();
-
-        try {
-            new DownloadImageTask(avatarView)
-                    .execute(avatar);
-        }catch(Exception e) {
-            e.printStackTrace();
+        ImageView postImage = (ImageView)CustomView.findViewById(R.id.imageWall);
+        TextView postText = (TextView)CustomView.findViewById(R.id.textWall);
+        Post p = posts.get(position);
+        String text = p.getText();
+        postText.setText(text);
+        String image = p.getImage_url();
+        postText.setText(text);
+        if (image != null){
+            try {
+                new DownloadImageTask(postImage).execute(image);
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
         }
-
-
         return CustomView;
     }
 
@@ -81,8 +71,4 @@ public class FriendsAdapter extends ArrayAdapter<User> {
             bmImage.setImageBitmap(result);
         }
     }
-
-
-
-
 }
