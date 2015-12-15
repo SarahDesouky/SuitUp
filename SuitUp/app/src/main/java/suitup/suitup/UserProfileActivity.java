@@ -135,7 +135,7 @@ public class UserProfileActivity extends AppCompatActivity{
 
 
 
-                }
+            }
 
             public void failure(RetrofitError error) {
             }
