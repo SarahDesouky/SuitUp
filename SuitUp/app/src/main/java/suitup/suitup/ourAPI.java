@@ -42,7 +42,7 @@ public interface ourAPI {
     @GET("/users/{twitter_id}/posts")
     void getMyPosts(@Path("twitter_id") String id, Callback<List<Post>> callback);
 
-    @GET("/users/{id}/posts")
+    @GET("/v/users/{id}/posts")
     void getMyPostsByID(@Path("id") String id, Callback<List<Post>> callback);
 
     @GET("/users/")
@@ -80,5 +80,8 @@ public interface ourAPI {
                  @Field("post[text]") String text ,
                  @Field("post[image_url]") String image ,
                  Callback<Post> callback);
+
+    @GET("/users/{twitter_id}/messages/threads")
+    void getAllThreads(@Path("twitter_id") String id, Callback<List<MessageThread>>callback);
 
 }

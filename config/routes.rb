@@ -12,12 +12,14 @@ Rails.application.routes.draw do
   get '/users/:twitter_id/posts' => 'posts#getMyPosts'
   post '/users/:twitter_id/post'=> 'posts#AddPost'
 
-  get '/users/:id/posts' => 'posts#getMyPostsByID'
+  get '/v/users/:id/posts' => 'posts#getMyPostsByID'
 
   get '/users/:twitter_id/posts' => 'posts#getMyPosts'
 
   post '/posts/:post_id'=> 'comments#AddComment'
   get '/posts/:post_id/comments'=> 'comments#getAllComments'
+
+  get '/users/:twitter_id/messages/threads' => 'message_threads#getAllThreads'
 
   resources :users do
 
