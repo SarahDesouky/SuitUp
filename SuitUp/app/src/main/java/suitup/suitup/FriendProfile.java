@@ -161,23 +161,7 @@ public class FriendProfile extends Activity {
             public void failure(RetrofitError error) {
             }
         });
-
-
-//        lstview = (ListView)findViewById(R.id.list);
-//        adapter2 = new CustomPostsAdapterTest(this,Posts,Images);
-//        lstview.setAdapter(adapter2);
-
-//        Bundle extras = getIntent().getExtras();
-//        if (extras != null) {
-//            value = extras.getString("friendName");
-//        }
-//        String fname = value;
-//        String lname = "";
-//
-//        TextView name = (TextView)findViewById(R.id.username);
-//        name.setText(fname + " " + lname);
-//        TextView country = (TextView) findViewById(R.id.country);
-//        country.setText(StaticData.CurrentUser.country);
+        
     }
 
 
