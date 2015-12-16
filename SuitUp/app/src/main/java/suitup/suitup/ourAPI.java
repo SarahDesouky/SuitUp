@@ -42,7 +42,7 @@ public interface ourAPI {
     @GET("/users/{twitter_id}/posts")
     void getMyPosts(@Path("twitter_id") String id, Callback<List<Post>> callback);
 
-    @GET("/users/{id}/posts")
+    @GET("/v/users/{id}/posts")
     void getMyPostsByID(@Path("id") String id, Callback<List<Post>> callback);
 
     @GET("/users/")
@@ -71,4 +71,7 @@ public interface ourAPI {
 
     @GET("/posts/{post_id}/comments")
     void getAllComments(@Path("post_id") String id, Callback<List<models.Comment>> callback);
+
+    @GET("/users/{twitter_id}/messages/threads")
+    void getAllThreads(@Path("twitter_id") String id, Callback<List<MessageThread>>callback);
 }

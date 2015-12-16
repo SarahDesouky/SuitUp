@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
 	has_many :posts_on_own_wall, :class_name =>'Post', :foreign_key => 'profile_id'
 	has_many :comments, :class_name =>'Comment', :foreign_key=>'owner_id'
 	has_many :messages_sent, :class_name=>'Message', :foreign_key=>'owner_id'
-	has_many :messages_received, :class_name=>'MessagesReceived', :foreign_key=>'user_id'
+	has_many :messages_received, :class_name=>'Message', :foreign_key=>'user_id'
 	# has_many :friends, through: :followees, :foreign_key=>'followee_id', :source=>'User', :class_name=> 'User'
 	validates :email, presence: true, uniqueness: true, format: {with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i}
 	validates :twitter_id, uniqueness:true;

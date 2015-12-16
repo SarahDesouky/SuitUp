@@ -1,5 +1,6 @@
 package suitup.suitup;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
@@ -13,15 +14,43 @@ import android.content.Intent;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import models.MessageThread;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class AllMessagesActivity extends Activity {
     public static ArrayList<Message> msgs = new ArrayList<>();
     public static Message msg;
     public ArrayAdapter<Message> adapter;
+    public static final String PREFS_NAME = "MyPrefs";
+    public static SharedPreferences.Editor editor;
+    String twitterId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_messages);
+
+        final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        editor = settings.edit();
+        twitterId = settings.getString("twitter_id", "");
+
+        RestAdapter adapterre = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
+        final ourAPI api = adapterre.create(ourAPI.class);
+        api.getAllThreads(twitterId, new Callback<List<MessageThread>>() {
+            @Override
+            public void success(List<MessageThread> messageThread, Response response) {
+                Integer thread = messageThread.get(0).getId();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                String msg = error.toString();
+            }
+        });
 
         ListView listView = (ListView) findViewById(R.id.listView);
 
