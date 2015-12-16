@@ -13,4 +13,17 @@ def getMyPostsByID
 	render json: @posts
 end
 
+def AddPost
+  @post = Post.new(post_params)
+  if @post.save 
+    render json: @post
+  else
+    render json: @post.errors, status: :unprocessable_entity 
+  end
+end
+
+def post_params
+params.require(:post).permit(:owner_id, :profile_id, :text, :image_url)
+end
+
 end

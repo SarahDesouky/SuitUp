@@ -25,6 +25,8 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.provider.MediaStore.Images;
+import android.net.Uri;
 import android.content.Intent;
 
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
@@ -56,9 +58,9 @@ public class UserProfileActivity extends AppCompatActivity{
 
     private ArrayAdapter<Post> adapter2;
 
-
-
-
+    String ownerID = "";
+    String profileID = "";
+    String twitterId = "";
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -69,10 +71,11 @@ public class UserProfileActivity extends AppCompatActivity{
 
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
         final ourAPI api = adapter.create(ourAPI.class);
-        final String twitterId = settings.getString("twitter_id", "");
+        twitterId = settings.getString("twitter_id", "");
         api.getUser(twitterId, new retrofit.Callback<models.User>() {
 
             public void success(models.User user, Response response) {
+                ownerID = String.valueOf(user.getId());
                 String fname = user.getFname();
                 String lname = user.getLname();
                 String country = user.getCountry();
@@ -177,18 +180,29 @@ public class UserProfileActivity extends AppCompatActivity{
 //        builder.show();
 //        adapter2.notifyDataSetChanged();
 //    }
-//    public void Post(View view) {
-//        String post = ((EditText)findViewById(R.id.tweet)).getText().toString();
+    public void Post(View view) {
+        String text = ((EditText)findViewById(R.id.tweet)).getText().toString();
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
+        final ourAPI api = adapter.create(ourAPI.class);
+
+        profileID = ownerID;
+        api.AddPost(twitterId, ownerID, profileID, text, text, new Callback<Post>(){
+            public void success(Post post, Response response){
+                Toast.makeText(getApplicationContext(), "ADDED", Toast.LENGTH_LONG).show();
+            }
+            public void failure(RetrofitError error) {
+                Toast.makeText(getApplicationContext(), "NOT ADDED", Toast.LENGTH_LONG).show();
+            }
+        });
 //        if(imageUploaded) {
 //            Images.add(imageToUpload);
 //        }
 //        else {
 //            Images.add(Uri.EMPTY);
 //        }
-//        Posts.add(post);
 //        adapter2.notifyDataSetChanged();
-//
-//    }
+
+    }
 
     public void viewFriends(View view){
         Intent friendList = new Intent(view.getContext(), FriendsListActivity.class);
