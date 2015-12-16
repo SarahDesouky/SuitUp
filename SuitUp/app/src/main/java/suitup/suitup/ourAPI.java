@@ -75,8 +75,18 @@ public interface ourAPI {
     @GET("/posts/{post_id}/comments")
     void getAllComments(@Path("post_id") String id, Callback<List<models.Comment>> callback);
 
+    @FormUrlEncoded
+    @POST("/users/post")
+    void  AddPost(
+                 @Field("post[owner_id]")String owner_id,
+                 @Field("post[profile_id]") String profile_id,
+                 @Field("post[text]") String text ,
+                 @Field("post[image_url]") String image ,
+                 Callback<Post> callback);
+
     @GET("/users/{twitter_id}/messages/threads")
     void getAllThreads(@Path("twitter_id") String id, Callback<List<MessageThread>>callback);
+
 
     @GET("/messages/threads/{thread_id}")
     void getAllMessagesInThread(@Path("thread_id") String id, Callback<List<Message>> callback);
@@ -101,4 +111,5 @@ public interface ourAPI {
     @FormUrlEncoded
     @POST("/thread")
     void AddThread(@Field("message_thread[user_id]") String id, @Field("message_thread[receiver_id]") String recId, Callback<MessageThread>callback);
+
 }

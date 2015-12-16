@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get '/users/:twitter_id/friends/:id' => 'users#isFriend'
 
   get '/users/:twitter_id/posts' => 'posts#getMyPosts'
+  post '/users/post'=> 'posts#create'
 
   get '/v/users/:id/posts' => 'posts#getMyPostsByID'
 

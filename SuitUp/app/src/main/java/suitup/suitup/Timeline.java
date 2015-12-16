@@ -1,12 +1,8 @@
 package suitup.suitup;
 
-import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -31,24 +27,21 @@ public class Timeline extends AppCompatActivity {
     private ArrayAdapter adapter2;
     public static final String PREFS_NAME = "MyPrefs";
     public static SharedPreferences.Editor editor;
-    private ArrayList<String> content = new ArrayList<>();
     private Button myProfile;
     ListView timeline;
-    ArrayList<String> usersNames;
+    ArrayList<User> usersNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_timeline);
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         editor = settings.edit();
 
-        final RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
         final ourAPI api = adapter.create(ourAPI.class);
 
-        setContentView(R.layout.activity_timeline);
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-//                android.R.layout.simple_list_item_1, content);
-//            ArrayList<Integer>icons = new ArrayList<>();
+
 
         final ArrayList<Post> posts = new ArrayList<>();
         usersNames = new ArrayList<>();
@@ -57,7 +50,7 @@ public class Timeline extends AppCompatActivity {
             public void success(List<User> users, Response response) {
 //                users =(ArrayList) users1;
                 for (int i = 0; i < users.size(); i++) {
-                    usersNames.add(users.get(i).getFname() + " " + users.get(i).getLname());
+                    usersNames.add(users.get(i));
                     api.getMyPostsByID(users.get(i).getId() + "", new Callback<List<Post>>() {
                         @Override
                         public void success(List<Post> postsList, Response response) {
@@ -78,9 +71,9 @@ public class Timeline extends AppCompatActivity {
 
             }
         });
-        ArrayAdapter<models.Post> adapter2 = new PostsAdapter(getApplicationContext(), posts);
+        ArrayAdapter<models.Post> adapter2 = new PostsAdapter(getApplicationContext(), posts, usersNames);
 
-//        adapter2 = new PostsAdapter(Timeline.this, posts,usersNames);
+        adapter2 = new PostsAdapter(Timeline.this, posts,usersNames);
         timeline = (ListView)findViewById(R.id.timelineList);
         timeline.setAdapter(adapter2);
     }

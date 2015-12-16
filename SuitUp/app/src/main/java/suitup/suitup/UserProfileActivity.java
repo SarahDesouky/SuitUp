@@ -25,6 +25,8 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.provider.MediaStore.Images;
+import android.net.Uri;
 import android.content.Intent;
 
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
@@ -44,16 +46,21 @@ import retrofit.client.Response;
 public class UserProfileActivity extends AppCompatActivity{
 
     ListView postsList;
+    ArrayList<String> postOwnersIDs = new ArrayList<String>();
     ArrayList<User> postOwners = new ArrayList<models.User>();
+    List<Post> myPosts;
+    ArrayAdapter<models.Post> adapter;
     private final int SELECT_PHOTO = 1;
     boolean imageUploaded = false;
     Uri imageToUpload;
     public static SharedPreferences.Editor editor;
     public static final String PREFS_NAME = "MyPrefs";
 
+    private ArrayAdapter<Post> adapter2;
 
-
-
+    String ownerID = "";
+    String profileID = "";
+    String twitterId = "";
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -64,10 +71,11 @@ public class UserProfileActivity extends AppCompatActivity{
 
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
         final ourAPI api = adapter.create(ourAPI.class);
-        final String twitterId = settings.getString("twitter_id", "");
+        twitterId = settings.getString("twitter_id", "");
         api.getUser(twitterId, new retrofit.Callback<models.User>() {
 
             public void success(models.User user, Response response) {
+                ownerID = String.valueOf(user.getId());
                 String fname = user.getFname();
                 String lname = user.getLname();
                 String country = user.getCountry();
@@ -90,22 +98,34 @@ public class UserProfileActivity extends AppCompatActivity{
 
                 api.getMyPosts(twitterId, new Callback<List<models.Post>>() {
                     public void success(List<Post> posts, Response response) {
-                        for (int i=0; i<posts.size(); i++){
+                        for (int i = 0; i < posts.size(); i++) {
                             String ownerID = String.valueOf(posts.get(i).getOwner_id());
-                            api.getFriend(ownerID, new retrofit.Callback<models.User>() {
+                            postOwnersIDs.add(ownerID);
+                        }
+                        myPosts = posts;
+                        for (int i = 0; i < postOwnersIDs.size(); i++) {
+                            api.getFriend(postOwnersIDs.get(i), new retrofit.Callback<models.User>() {
                                 public void success(models.User user, Response response) {
                                     postOwners.add(user);
-                                    Log.d("owners",user.getEmail());
+                                    if (postOwners.size() == myPosts.size()) {
+                                        ArrayAdapter<models.Post> adapter3 = new PostsAdapter(getApplicationContext(), myPosts, postOwners);
+                                        postsList = (ListView) findViewById(R.id.list);
+                                        postsList.setAdapter(adapter3);
+                                        postsList.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                models.Post post = (models.Post) parent.getItemAtPosition(position);
+                                                editor.putString("post_id", String.valueOf(post.getId())).commit();
+                                                Intent intent = new Intent(getApplicationContext(), PostActivity.class);
+                                                startActivity(intent);
+                                            }
+                                        });
+                                    }
                                 }
                                 public void failure(RetrofitError error) {
                                     Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
-                                    Log.d("owners","No");
                                 }
                             });
                         }
-                        ArrayAdapter<models.Post> adapter = new PostsAdapter(getApplicationContext(), posts, postOwners);
-                        postsList = (ListView) findViewById(R.id.list);
-                        postsList.setAdapter(adapter);
                     }
 
                     public void failure(RetrofitError error) {
@@ -147,32 +167,77 @@ public class UserProfileActivity extends AppCompatActivity{
         }
     }
 
-//    public void Tweet(View view) {
-//        String post = ((EditText)findViewById(R.id.tweet)).getText().toString();
-//        TweetComposer.Builder builder;
-//        if(imageUploaded) {
-//            builder = new TweetComposer.Builder(this)
-//                    .text(post) .image(imageToUpload);
-//        }
-//        else {
-//            builder = new TweetComposer.Builder(this)
-//                    .text(post);
-//        }
-//        builder.show();
-//        adapter2.notifyDataSetChanged();
-//    }
-//    public void Post(View view) {
-//        String post = ((EditText)findViewById(R.id.tweet)).getText().toString();
+    public void Tweet(View view) {
+        String post = ((EditText)findViewById(R.id.tweet)).getText().toString();
+        TweetComposer.Builder builder;
+        if(imageUploaded) {
+            builder = new TweetComposer.Builder(this).text(post).image(imageToUpload);
+        }
+        else {
+            builder = new TweetComposer.Builder(this).text(post);
+        }
+        builder.show();
+    }
+
+    public void Post(View view) {
+        String text = ((EditText)findViewById(R.id.tweet)).getText().toString();
+        String image = "https://s-media-cache-ak0.pinimg.com/736x/09/20/12/092012fa352d7832cca502f7fb59576c.jpg";
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
+        final ourAPI api = adapter.create(ourAPI.class);
+
+        profileID = ownerID;
+        api.AddPost(ownerID, profileID, text, image, new Callback<Post>(){
+            public void success(Post post, Response response){
+                api.getMyPosts(twitterId, new Callback<List<models.Post>>(){
+                    public void success(List<Post> posts, Response response) {
+                        for (int i = 0; i < posts.size(); i++) {
+                            String ownerID = String.valueOf(posts.get(i).getOwner_id());
+                            postOwnersIDs.add(ownerID);
+                        }
+                        myPosts = posts;
+                        for (int i = 0; i < postOwnersIDs.size(); i++) {
+                            api.getFriend(postOwnersIDs.get(i), new retrofit.Callback<models.User>() {
+                                public void success(models.User user, Response response) {
+                                    postOwners.add(user);
+                                    if (postOwners.size() == myPosts.size()) {
+                                        ArrayAdapter<models.Post> adapter3 = new PostsAdapter(getApplicationContext(), myPosts, postOwners);
+                                        postsList = (ListView) findViewById(R.id.list);
+                                        postsList.setAdapter(adapter3);
+                                        postsList.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                models.Post post = (models.Post) parent.getItemAtPosition(position);
+                                                editor.putString("post_id", String.valueOf(post.getId())).commit();
+                                                Intent intent = new Intent(getApplicationContext(), PostActivity.class);
+                                                startActivity(intent);
+                                            }
+                                        });
+                                    }
+                                }
+                                public void failure(RetrofitError error) {
+                                    Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+
+                    }
+                    public void failure(RetrofitError error) {
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
+                        //Toast.makeText(getApplicationContext(), "ADDED", Toast.LENGTH_LONG).show();
+            }
+            public void failure(RetrofitError error) {
+            }
+        });
 //        if(imageUploaded) {
 //            Images.add(imageToUpload);
 //        }
 //        else {
 //            Images.add(Uri.EMPTY);
 //        }
-//        Posts.add(post);
 //        adapter2.notifyDataSetChanged();
-//
-//    }
+
+    }
 
     public void viewFriends(View view){
         Intent friendList = new Intent(view.getContext(), FriendsListActivity.class);

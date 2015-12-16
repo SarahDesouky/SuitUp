@@ -170,11 +170,7 @@
             android:visibility="gone"
             android:id="@+id/cancel"
             android:onClick="removeImage"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tweet"
-            android:onClick="Tweet"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
