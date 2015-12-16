@@ -161,7 +161,7 @@ public class FriendProfile extends Activity {
             public void failure(RetrofitError error) {
             }
         });
-        
+
     }
 
 

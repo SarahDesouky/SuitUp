@@ -31,7 +31,6 @@ public class Timeline extends AppCompatActivity {
     private ArrayAdapter adapter2;
     public static final String PREFS_NAME = "MyPrefs";
     public static SharedPreferences.Editor editor;
-    private ArrayList<String> content = new ArrayList<>();
     private Button myProfile;
     ListView timeline;
     ArrayList<User> usersNames;
@@ -39,13 +38,14 @@ public class Timeline extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_timeline);
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         editor = settings.edit();
-//
-//        final RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
-//        final ourAPI api = adapter.create(ourAPI.class);
 
-        setContentView(R.layout.activity_timeline);
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
+        final ourAPI api = adapter.create(ourAPI.class);
+
+
 
 //        final ArrayList<Post> posts = new ArrayList<>();
 //        usersNames = new ArrayList<>();
