@@ -20,6 +20,18 @@ Rails.application.routes.draw do
 
   get '/users/:twitter_id/messages/threads' => 'message_threads#getAllThreads'
 
+  get '/messages/threads/:thread_id' => 'messages#getMessagesInThread'
+
+  post '/messages' => 'messages#addMessage' 
+
+  post '/thread' => 'message_threads#addThread'
+
+  get '/thread/:user_id/:receiver_id/find' => 'message_threads#findThread'
+
+  get '/thread/:thread_id' => 'message_threads#getThread'
+
+  put '/thread/messages' => 'messages#MarkAsRead'
+
   resources :users do
 
   end

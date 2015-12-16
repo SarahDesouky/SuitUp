@@ -44,6 +44,7 @@ public class FriendProfile extends Activity {
     String value;
     TextView myFriend;
     Button b;
+    String myId = "";
 
 
     public static SharedPreferences.Editor editor;
@@ -226,13 +227,49 @@ public class FriendProfile extends Activity {
     }
 
     public void viewMsgs(View view){
-        String friendName = ((TextView)findViewById(R.id.username)).getText().toString();
-        Message newMessage = new Message("", StaticData.CurrentUser.fname,friendName );
-        Intent msg = new Intent(view.getContext(), MessageActivity.class);
+
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        editor = settings.edit();
-        editor.putString("friendname", friendName).commit();
-        startActivityForResult(msg, 0);
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
+        final ourAPI api = adapter.create(ourAPI.class);
+        myId = settings.getString("my_id","");
+        api.findThread(myId, friendId, new Callback<MessageThread>() {
+            @Override
+            public void success(MessageThread messageThread, Response response) {
+                if(messageThread!=null) {
+                    editor.putString("thread_id", messageThread.getId().toString());
+                    Intent msg = new Intent(getApplicationContext(), MessageActivity.class);
+                    startActivity(msg);
+                }
+                else {
+                    api.AddThread(myId, friendId, new Callback<MessageThread>() {
+                        @Override
+                        public void success(MessageThread messageThread, Response response) {
+                            editor.putString("thread_id", messageThread.getId().toString()).commit();
+                            Intent msg = new Intent(getApplicationContext(), MessageActivity.class);
+                            startActivity(msg);
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                String msg = error.toString();
+            }
+        });
+
+//        String friendName = ((TextView)findViewById(R.id.username)).getText().toString();
+//        Message newMessage = new Message("", StaticData.CurrentUser.fname,friendName );
+//        Intent msg = new Intent(view.getContext(), MessageActivity.class);
+//        startActivity(msg);
+//        editor = settings.edit();
+//        editor.putString("friendname", friendName).commit();
+//        startActivityForResult(msg, 0);
     }
 
     public void removeImage(View view) {

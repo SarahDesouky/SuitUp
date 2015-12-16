@@ -80,6 +80,7 @@ public class UserProfileActivity extends AppCompatActivity{
                 ((TextView) findViewById(R.id.dateofbirth)).setText("Birthday: " + dateofbirth);
                 ((TextView) findViewById(R.id.email)).setText(email);
                 ((TextView) findViewById(R.id.gender)).setText(gender);
+                editor.putString("my_id", String.valueOf(user.getId())).commit();
                 try {
                     new DownloadImageTask((ImageView) findViewById(R.id.avatar))
                             .execute(avatar);

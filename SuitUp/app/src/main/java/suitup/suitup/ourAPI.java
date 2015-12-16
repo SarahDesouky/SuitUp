@@ -1,8 +1,11 @@
 package suitup.suitup;
 
+import android.telecom.Call;
+
 import java.util.List;
 
 import models.*;
+import models.Message;
 import models.Post;
 import models.User;
 import retrofit.Callback;
@@ -74,4 +77,28 @@ public interface ourAPI {
 
     @GET("/users/{twitter_id}/messages/threads")
     void getAllThreads(@Path("twitter_id") String id, Callback<List<MessageThread>>callback);
+
+    @GET("/messages/threads/{thread_id}")
+    void getAllMessagesInThread(@Path("thread_id") String id, Callback<List<Message>> callback);
+
+    @FormUrlEncoded
+    @POST("/messages")
+    void AddMessage(@Field("message[owner_id]") String id, @Field("message[user_id]") String recid,
+                    @Field("message[text]") String text,
+                    @Field("message[thread_id]") String thread, Callback<Message>callback);
+
+    @GET("/thread/{thread_id}")
+    void getThread(@Path("thread_id") String id, Callback<MessageThread>callback);
+
+    @FormUrlEncoded
+    @PUT("/thread/messages")
+    void markAsRead(@Field("message[thread_id]") String threadId,
+                    @Field("message[owner_id]") String id, Callback<List<Message>>callback);
+
+    @GET("/thread/{user_id}/{receiver_id}/find")
+    void findThread(@Path("user_id") String id, @Path("receiver_id") String friendid, Callback<MessageThread>callback);
+
+    @FormUrlEncoded
+    @POST("/thread")
+    void AddThread(@Field("message_thread[user_id]") String id, @Field("message_thread[receiver_id]") String recId, Callback<MessageThread>callback);
 }
