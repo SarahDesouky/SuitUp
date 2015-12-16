@@ -1,7 +1,10 @@
 class PostsController < ApplicationController
 
 skip_before_action :verify_authenticity_token
-
+def index
+	@posts = Post.all
+	render json: @posts
+end
 #returns a list of posts for a specific user using the user's twitter_id
 def getMyPosts
 	@user = User.where(:twitter_id =>params[:twitter_id]).take

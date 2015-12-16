@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   get '/users/:twitter_id/posts' => 'posts#getMyPosts'
   post '/users/post'=> 'posts#create'
-
+  get '/users/posts' =>'posts#index'
   get '/v/users/:id/posts' => 'posts#getMyPostsByID'
 
   get '/users/:twitter_id/posts' => 'posts#getMyPosts'

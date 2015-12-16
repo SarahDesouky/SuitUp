@@ -84,4 +84,6 @@ public interface ourAPI {
     @GET("/users/{twitter_id}/messages/threads")
     void getAllThreads(@Path("twitter_id") String id, Callback<List<MessageThread>>callback);
 
+    @GET("/users/posts")
+    void getPosts(Callback<List<Post>> callback);
 }

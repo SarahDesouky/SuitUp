@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import models.*;
@@ -29,7 +30,10 @@ public class Timeline extends AppCompatActivity {
     public static SharedPreferences.Editor editor;
     private Button myProfile;
     ListView timeline;
-    ArrayList<User> usersNames;
+    ArrayList<User> userNames = new ArrayList<User>();
+    ArrayList<Post> posts = new ArrayList<Post>();
+    String twitterId = "";
+    User u;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,22 +44,33 @@ public class Timeline extends AppCompatActivity {
 
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
         final ourAPI api = adapter.create(ourAPI.class);
-
-
-
-        final ArrayList<Post> posts = new ArrayList<>();
-        usersNames = new ArrayList<>();
-        api.getFriends(settings.getString("twitter_id", ""), new Callback<List<models.User>>() {
+        twitterId = settings.getString("twitter_id", "");
+        api.getFriends(twitterId, new Callback<List<models.User>>() {
             @Override
             public void success(List<User> users, Response response) {
-//                users =(ArrayList) users1;
                 for (int i = 0; i < users.size(); i++) {
-                    usersNames.add(users.get(i));
+                    u = users.get(i);
                     api.getMyPostsByID(users.get(i).getId() + "", new Callback<List<Post>>() {
                         @Override
                         public void success(List<Post> postsList, Response response) {
-                            Log.d("post","success");
-                            posts.addAll(postsList);
+                            Log.d("post", userNames.size() + "");
+//                            posts.addAll(postsList);
+
+                            for(int j=0 ;j<postsList.size();j++) {
+                                posts.add(postsList.get(j));
+                                userNames.add(u);
+
+                            }
+//                            if(i == users.size()-1) {
+                                ArrayAdapter<models.Post> adapter2 = new PostsAdapter(getApplicationContext(), posts, userNames);
+                                timeline = (ListView) findViewById(R.id.timelineList);
+                                timeline.setAdapter(adapter2);
+//                            }
+
+
+                            Log.d("yarab", Arrays.toString(posts.toArray()));
+
+
                         }
 
                         @Override
@@ -63,7 +78,9 @@ public class Timeline extends AppCompatActivity {
 
                         }
                     });
+
                 }
+
             }
 
             @Override
@@ -71,11 +88,6 @@ public class Timeline extends AppCompatActivity {
 
             }
         });
-        ArrayAdapter<models.Post> adapter2 = new PostsAdapter(getApplicationContext(), posts, usersNames);
-
-        adapter2 = new PostsAdapter(Timeline.this, posts,usersNames);
-        timeline = (ListView)findViewById(R.id.timelineList);
-        timeline.setAdapter(adapter2);
     }
 
 
