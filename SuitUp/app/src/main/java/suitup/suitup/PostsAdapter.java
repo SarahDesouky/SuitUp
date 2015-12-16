@@ -38,6 +38,7 @@ public class PostsAdapter extends ArrayAdapter<Post> {
         TextView postOwner = (TextView)CustomView.findViewById(R.id.poster);
         Post p = posts.get(position);
         int pos = posts.indexOf(p);
+        if(postOwners.get(pos)!=null)
         postOwner.setText(postOwners.get(pos).getFname() + " " + postOwners.get(pos).getLname());
         String text = p.getText();
         postText.setText(text);
