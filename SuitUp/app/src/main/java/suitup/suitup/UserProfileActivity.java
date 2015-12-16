@@ -180,13 +180,15 @@ public class UserProfileActivity extends AppCompatActivity{
 //        builder.show();
 //        adapter2.notifyDataSetChanged();
 //    }
+
     public void Post(View view) {
         String text = ((EditText)findViewById(R.id.tweet)).getText().toString();
+        String image = "https://s-media-cache-ak0.pinimg.com/736x/09/20/12/092012fa352d7832cca502f7fb59576c.jpg";
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
         final ourAPI api = adapter.create(ourAPI.class);
 
         profileID = ownerID;
-        api.AddPost(twitterId, ownerID, profileID, text, text, new Callback<Post>(){
+        api.AddPost(twitterId, ownerID, profileID, text, image, new Callback<Post>(){
             public void success(Post post, Response response){
                 Toast.makeText(getApplicationContext(), "ADDED", Toast.LENGTH_LONG).show();
             }

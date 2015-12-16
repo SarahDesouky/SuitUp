@@ -42,47 +42,47 @@ public class Timeline extends AppCompatActivity {
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         editor = settings.edit();
 
-        final RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
-        final ourAPI api = adapter.create(ourAPI.class);
-
+//        final RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
+//        final ourAPI api = adapter.create(ourAPI.class);
+//
         setContentView(R.layout.activity_timeline);
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-//                android.R.layout.simple_list_item_1, content);
-//            ArrayList<Integer>icons = new ArrayList<>();
-
-        final ArrayList<Post> posts = new ArrayList<>();
-        usersNames = new ArrayList<>();
-        api.getFriends(settings.getString("twitter_id", ""), new Callback<List<models.User>>() {
-            @Override
-            public void success(List<User> users, Response response) {
-//                users =(ArrayList) users1;
-                for (int i = 0; i < users.size(); i++) {
-                    usersNames.add(users.get(i).getFname() + " " + users.get(i).getLname());
-                    api.getMyPostsByID(users.get(i).getId() + "", new Callback<List<Post>>() {
-                        @Override
-                        public void success(List<Post> postsList, Response response) {
-                            Log.d("post","success");
-                            posts.addAll(postsList);
-                        }
-
-                        @Override
-                        public void failure(RetrofitError error) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
-        ArrayAdapter<models.Post> adapter2 = new PostsAdapter(getApplicationContext(), posts);
-
-//        adapter2 = new PostsAdapter(Timeline.this, posts,usersNames);
-        timeline = (ListView)findViewById(R.id.timelineList);
-        timeline.setAdapter(adapter2);
+////        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+////                android.R.layout.simple_list_item_1, content);
+////            ArrayList<Integer>icons = new ArrayList<>();
+//
+//        final ArrayList<Post> posts = new ArrayList<>();
+//        usersNames = new ArrayList<>();
+//        api.getFriends(settings.getString("twitter_id", ""), new Callback<List<models.User>>() {
+//            @Override
+//            public void success(List<User> users, Response response) {
+////                users =(ArrayList) users1;
+//                for (int i = 0; i < users.size(); i++) {
+//                    usersNames.add(users.get(i).getFname() + " " + users.get(i).getLname());
+//                    api.getMyPostsByID(users.get(i).getId() + "", new Callback<List<Post>>() {
+//                        @Override
+//                        public void success(List<Post> postsList, Response response) {
+//                            Log.d("post","success");
+//                            posts.addAll(postsList);
+//                        }
+//
+//                        @Override
+//                        public void failure(RetrofitError error) {
+//
+//                        }
+//                    });
+//                }
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError error) {
+//
+//            }
+//        });
+//        ArrayAdapter<models.Post> adapter2 = new PostsAdapter(getApplicationContext(), posts);
+//
+////        adapter2 = new PostsAdapter(Timeline.this, posts,usersNames);
+//        timeline = (ListView)findViewById(R.id.timelineList);
+//        timeline.setAdapter(adapter2);
     }
 
 
