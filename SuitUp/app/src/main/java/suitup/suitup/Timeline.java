@@ -34,22 +34,19 @@ public class Timeline extends AppCompatActivity {
     private ArrayList<String> content = new ArrayList<>();
     private Button myProfile;
     ListView timeline;
-    ArrayList<String> usersNames;
+    ArrayList<User> usersNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         editor = settings.edit();
-
+//
 //        final RestAdapter adapter = new RestAdapter.Builder().setEndpoint(getResources().getString(R.string.API_BASE_URL)).build();
 //        final ourAPI api = adapter.create(ourAPI.class);
-//
+
         setContentView(R.layout.activity_timeline);
-////        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-////                android.R.layout.simple_list_item_1, content);
-////            ArrayList<Integer>icons = new ArrayList<>();
-//
+
 //        final ArrayList<Post> posts = new ArrayList<>();
 //        usersNames = new ArrayList<>();
 //        api.getFriends(settings.getString("twitter_id", ""), new Callback<List<models.User>>() {
@@ -57,7 +54,7 @@ public class Timeline extends AppCompatActivity {
 //            public void success(List<User> users, Response response) {
 ////                users =(ArrayList) users1;
 //                for (int i = 0; i < users.size(); i++) {
-//                    usersNames.add(users.get(i).getFname() + " " + users.get(i).getLname());
+//                    usersNames.add(users.get(i));
 //                    api.getMyPostsByID(users.get(i).getId() + "", new Callback<List<Post>>() {
 //                        @Override
 //                        public void success(List<Post> postsList, Response response) {
@@ -78,9 +75,9 @@ public class Timeline extends AppCompatActivity {
 //
 //            }
 //        });
-//        ArrayAdapter<models.Post> adapter2 = new PostsAdapter(getApplicationContext(), posts);
+//        ArrayAdapter<models.Post> adapter2 = new PostsAdapter(getApplicationContext(), posts, usersNames);
 //
-////        adapter2 = new PostsAdapter(Timeline.this, posts,usersNames);
+//        adapter2 = new PostsAdapter(Timeline.this, posts,usersNames);
 //        timeline = (ListView)findViewById(R.id.timelineList);
 //        timeline.setAdapter(adapter2);
     }

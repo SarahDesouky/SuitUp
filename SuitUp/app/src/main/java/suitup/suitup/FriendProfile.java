@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.graphics.Color;
+import android.widget.Toast;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,6 +30,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import models.*;
+import models.Post;
+import models.User;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -34,7 +39,6 @@ import retrofit.client.Response;
 
 public class FriendProfile extends Activity {
 
-    ListView lstview;
     ArrayList<String> Posts = new ArrayList<String>();
     ArrayList<Uri> Images = new ArrayList<Uri>();
     private final int SELECT_PHOTO = 1;
@@ -44,6 +48,11 @@ public class FriendProfile extends Activity {
     String value;
     TextView myFriend;
     Button b;
+
+    ListView postsList;
+    ArrayList<String> postOwnersIDs = new ArrayList<String>();
+    ArrayList<User> postOwners = new ArrayList<models.User>();
+    List<Post> myPosts;
 
 
     public static SharedPreferences.Editor editor;
@@ -107,6 +116,44 @@ public class FriendProfile extends Activity {
                     }
                 });
 
+                api.getMyPostsByID(friendId, new Callback<List<models.Post>>() {
+                    public void success(List<Post> posts, Response response) {
+                        for (int i = 0; i < posts.size(); i++) {
+                            String ownerID = String.valueOf(posts.get(i).getOwner_id());
+                            postOwnersIDs.add(ownerID);
+                        }
+                        myPosts = posts;
+                        for (int i = 0; i < postOwnersIDs.size(); i++) {
+                            api.getFriend(postOwnersIDs.get(i), new retrofit.Callback<models.User>() {
+                                public void success(models.User user, Response response) {
+                                    postOwners.add(user);
+                                    if (postOwners.size() == myPosts.size()) {
+                                        ArrayAdapter<models.Post> adapter3 = new PostsAdapter(getApplicationContext(), myPosts, postOwners);
+                                        postsList = (ListView) findViewById(R.id.list);
+                                        postsList.setAdapter(adapter3);
+                                        postsList.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                models.Post post = (models.Post) parent.getItemAtPosition(position);
+                                                editor.putString("post_id", String.valueOf(post.getId())).commit();
+                                                Intent intent = new Intent(getApplicationContext(), PostActivity.class);
+                                                startActivity(intent);
+                                            }
+                                        });
+                                    }
+                                }
+
+                                public void failure(RetrofitError error) {
+                                    Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    }
+
+                    public void failure(RetrofitError error) {
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
 
 
             }
@@ -116,9 +163,9 @@ public class FriendProfile extends Activity {
         });
 
 
-        lstview = (ListView)findViewById(R.id.list);
-        adapter2 = new CustomPostsAdapterTest(this,Posts,Images);
-        lstview.setAdapter(adapter2);
+//        lstview = (ListView)findViewById(R.id.list);
+//        adapter2 = new CustomPostsAdapterTest(this,Posts,Images);
+//        lstview.setAdapter(adapter2);
 
 //        Bundle extras = getIntent().getExtras();
 //        if (extras != null) {
