@@ -166,20 +166,17 @@ public class UserProfileActivity extends AppCompatActivity{
         }
     }
 
-//    public void Tweet(View view) {
-//        String post = ((EditText)findViewById(R.id.tweet)).getText().toString();
-//        TweetComposer.Builder builder;
-//        if(imageUploaded) {
-//            builder = new TweetComposer.Builder(this)
-//                    .text(post) .image(imageToUpload);
-//        }
-//        else {
-//            builder = new TweetComposer.Builder(this)
-//                    .text(post);
-//        }
-//        builder.show();
-//        adapter2.notifyDataSetChanged();
-//    }
+    public void Tweet(View view) {
+        String post = ((EditText)findViewById(R.id.tweet)).getText().toString();
+        TweetComposer.Builder builder;
+        if(imageUploaded) {
+            builder = new TweetComposer.Builder(this).text(post).image(imageToUpload);
+        }
+        else {
+            builder = new TweetComposer.Builder(this).text(post);
+        }
+        builder.show();
+    }
 
     public void Post(View view) {
         String text = ((EditText)findViewById(R.id.tweet)).getText().toString();
@@ -188,12 +185,47 @@ public class UserProfileActivity extends AppCompatActivity{
         final ourAPI api = adapter.create(ourAPI.class);
 
         profileID = ownerID;
-        api.AddPost(twitterId, ownerID, profileID, text, image, new Callback<Post>(){
+        api.AddPost(ownerID, profileID, text, image, new Callback<Post>(){
             public void success(Post post, Response response){
-                Toast.makeText(getApplicationContext(), "ADDED", Toast.LENGTH_LONG).show();
+                api.getMyPosts(twitterId, new Callback<List<models.Post>>(){
+                    public void success(List<Post> posts, Response response) {
+                        for (int i = 0; i < posts.size(); i++) {
+                            String ownerID = String.valueOf(posts.get(i).getOwner_id());
+                            postOwnersIDs.add(ownerID);
+                        }
+                        myPosts = posts;
+                        for (int i = 0; i < postOwnersIDs.size(); i++) {
+                            api.getFriend(postOwnersIDs.get(i), new retrofit.Callback<models.User>() {
+                                public void success(models.User user, Response response) {
+                                    postOwners.add(user);
+                                    if (postOwners.size() == myPosts.size()) {
+                                        ArrayAdapter<models.Post> adapter3 = new PostsAdapter(getApplicationContext(), myPosts, postOwners);
+                                        postsList = (ListView) findViewById(R.id.list);
+                                        postsList.setAdapter(adapter3);
+                                        postsList.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+                                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                                models.Post post = (models.Post) parent.getItemAtPosition(position);
+                                                editor.putString("post_id", String.valueOf(post.getId())).commit();
+                                                Intent intent = new Intent(getApplicationContext(), PostActivity.class);
+                                                startActivity(intent);
+                                            }
+                                        });
+                                    }
+                                }
+                                public void failure(RetrofitError error) {
+                                    Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+
+                    }
+                    public void failure(RetrofitError error) {
+                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
+                        //Toast.makeText(getApplicationContext(), "ADDED", Toast.LENGTH_LONG).show();
             }
             public void failure(RetrofitError error) {
-                Toast.makeText(getApplicationContext(), "NOT ADDED", Toast.LENGTH_LONG).show();
             }
         });
 //        if(imageUploaded) {

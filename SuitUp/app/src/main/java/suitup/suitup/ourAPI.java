@@ -73,8 +73,8 @@ public interface ourAPI {
     void getAllComments(@Path("post_id") String id, Callback<List<models.Comment>> callback);
 
     @FormUrlEncoded
-    @POST("/users/{twitter_id}/post")
-    void AddPost(@Path("twitter_id") String id,
+    @POST("/users/post")
+    void  AddPost(
                  @Field("post[owner_id]")String owner_id,
                  @Field("post[profile_id]") String profile_id,
                  @Field("post[text]") String text ,

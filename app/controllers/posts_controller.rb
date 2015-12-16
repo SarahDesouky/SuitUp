@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
 
+	skip_before_action :verify_authenticity_token
+
 #returns a list of posts for a specific user
 def getMyPosts
 	@user = User.where(:twitter_id =>params[:twitter_id]).take
@@ -13,12 +15,12 @@ def getMyPostsByID
 	render json: @posts
 end
 
-def AddPost
-  @post = Post.new(post_params)
+def create
+  @post = Post.create(post_params)
   if @post.save 
     render json: @post
   else
-    render json: @post.errors, status: :unprocessable_entity 
+    render json: @post.errors
   end
 end
 
